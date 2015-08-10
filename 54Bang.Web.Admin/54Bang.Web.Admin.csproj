@@ -140,6 +140,7 @@
     <Content Include="Resources\css\bootstrap.min.css" />
     <Content Include="Resources\js\bootstrap.js" />
     <Content Include="Resources\js\bootstrap.min.js" />
+    <Content Include="Resources\js\jquery-2.1.4.min.js" />
     <Content Include="Resources\js\npm.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
