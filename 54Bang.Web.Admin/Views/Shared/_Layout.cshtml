@@ -18,8 +18,21 @@
 
 </head>
 <body>
-    @RenderBody()
-
+    <!--container-fluid-->
+    <div class="container">
+        <div class="row" style="border:1px solid #0094ff;">
+            Welcome ***************
+        </div>
+        <div class="row">
+            <div class="col-md-3" style="border:1px solid #0094ff;">
+                @Html.Partial("LeftMenu")
+            </div>
+            <div class="col-md-9" style="border:1px solid #0094ff;">
+                right
+                @RenderBody()
+            </div>
+        </div>
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/Resources/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
