@@ -173,6 +173,9 @@
     <Content Include="Resources\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Resources\fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\LeftMenu.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
