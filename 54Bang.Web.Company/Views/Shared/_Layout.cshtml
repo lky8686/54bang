@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>@ViewBag.Title</title>
@@ -11,9 +11,11 @@
 
     <!-- Custom styles for this template -->
     <link href="/Resources/css/dashboard.css" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
+         <link media="screen" href="/Resources/css/bootstrap-theme.css" rel="stylesheet" />
       <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -23,6 +25,8 @@
     <style type="text/css">
         .bang-pagination .btn { margin: 0 1px; height: 28px; line-height: 28px; overflow: hidden; border-radius: 0; }
     </style>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/Resources/js/jquery.min.js"></script>
 </head>
 <body>
     @Html.Partial("TopMenu")
@@ -36,10 +40,38 @@
     </div>
     <input type="text" id="d11" onclick="WdatePicker()" />
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="/Resources/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/Resources/js/bootstrap.min.js"></script>
     <script src="/Resources/js/My97DatePicker/WdatePicker.js"></script>
 </body>
 </html>
+<script type="text/javascript">
+    function demo() {
+        var postData = { "a": "B" }
+        $.ajax({
+            type: 'post',
+            url: "",
+            data: { data: JSON.stringify(postData) },
+            success: function (data) {
+                //TODO:保存成功
+                $("#vol_btn_SaveAndNext").removeAttr("disabled");
+                var resultStatus = data["returncode"];
+                var resultMessage = data["message"];
+                if (resultStatus == "0") {
+                    //跳转到下一页
+                    alert("保存成功跳转到下一页")
+                } else if (resultStatus == -2) {
+                    // 在别处提交过,提示后自动刷新
+                    alert(resultMessage)
+                } else {//异常
+                    alert(resultMessage)
+                }
+            },
+            dataType: "JSON",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $("#vol_btn_SaveAndNext").removeAttr("disabled");
+                alert("系统异常，请稍后再试！");
+            }
+        });
+    }
+</script>

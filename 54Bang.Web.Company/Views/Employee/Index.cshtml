@@ -107,4 +107,80 @@
             </tr>
     </table>
 </div>
-@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = 10, RecordCount = 9, CurrentIndex =0 })
+@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = 10, RecordCount = 9, CurrentIndex = 0 })
+
+<script type="text/html" id="tempAddEmp">
+    <div style="width: 500px;">
+        手机号:<input type="text" id="layer_mobile" /><input type="button" value="增加" id="layer_add" />
+    </div>
+    <hr />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>序号
+                </td>
+                <td>手机号</td>
+            </tr>
+        </thead>
+        <tbody id="layer_mobile_list">
+        </tbody>
+    </table>
+    <div style="text-align: center">
+        <input type="button" value="确认添加" id="layer_Confirm" />
+    </div>
+</script>
+
+<script type="text/javascript" src="/Resources/js/PagePromptBox.js"></script>
+<script type="text/javascript">
+    $("#AddEmp").on("click", function () {
+        webPB.showDialog({ title: "添加师傅", msg: $("#tempAddEmp").html() });
+        var index = 1;
+        $("#layer_add").on("click", function () {
+            var mobile = $("#layer_mobile").val();
+            var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+            if (reg.test(mobile)) {
+                //alert("号码正确~");
+                if ($("#layer_mobile_" + mobile).length != 0) {
+                    alert("已存在该手机号:" + mobile)
+                    return;
+                }
+                $("<tr id='layer_mobile_" + mobile + "'><td>" + index + "</td><td>" + mobile + "</td></tr>").appendTo("#layer_mobile_list")
+                if ($("#layer_mobile_list").attr("data-list") == undefined) {
+                    $("#layer_mobile_list").attr("data-list", mobile)
+                } else {
+                    $("#layer_mobile_list").attr("data-list", $("#layer_mobile_list").attr("data-list") + ";" + mobile)
+                }
+                index++;
+                $("#layer_mobile").val("")
+                //alert($("#layer_mobile_list").attr("data-list"))
+            } else {
+                alert("号码有误~");
+            };
+        })
+        $("#layer_Confirm").on("click", function () {            
+            if ($("#layer_mobile_list").attr("data-list") != undefined) {
+                $("#layer_Confirm").attr("disabled", true);
+                $.ajax({
+                    type: 'post',
+                    url: "/Employee/Add",
+                    data: { mobileList: $("#layer_mobile_list").attr("data-list") },
+                    success: function (data) {
+                        $("#layer_Confirm").removeAttr("disabled");
+                        if (data.success) {
+                            alert("保存成功:" + data.msg)
+                        } else {
+                            alert("保存失败:" + data.msg)
+                        }
+                        webPB.close();
+                    },
+                    dataType: "JSON",
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $("#layer_Confirm").removeAttr("disabled");
+                        alert("系统异常，请稍后再试！");
+                    }
+                });
+            }
+        })
+    })
+</script>
+

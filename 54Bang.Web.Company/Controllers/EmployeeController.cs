@@ -21,5 +21,11 @@ namespace _54Bang.Web.Company.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Add(string mobileList)
+        {
+            return Json(new { success = true, msg = mobileList });
+        }
+
     }
 }

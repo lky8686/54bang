@@ -164,9 +164,11 @@ webPromptBox.PageUI.prototype = {
         }
     },
     close: function () {
-        var eles = document.getElementsByTagName("select");
-        for (var i = 0; i < eles.length; i++) {
-            eles[i].style.display = "";
+        if (navigator.appVersion.indexOf('MSIE') != -1) {
+            var eles = document.getElementsByTagName("select");
+            for (var i = 0; i < eles.length; i++) {
+                eles[i].style.display = "";
+            }
         }
         if (this.$(this.msgDivId)) {
             this.$(this.msgDivId).innerHTML = "";
@@ -258,7 +260,7 @@ var webPB = new webPromptBox.PageUI();;
 $(document).ready(
     function () {
         webPB.render();
-        webPB.close();
+        //webPB.close();
     }
     );
 function showTimeOutPromptBox() {
