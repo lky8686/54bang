@@ -2,4 +2,120 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2 class="sub-header">订单列表</h2>
+<form>
+    <div class="row">
+        <div class="col-md-2">
+            地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区:
+            <select id="sel_City" class="form-control" style="display: inline; width: 120px;">
+                <option value="-1">请选择</option>
+                @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+                { 
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期:<input id="date_reg_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_reg_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
+        <div class="col-md-2">
+            师傅账户:<select id="sel_EmpAccount" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
+                @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+                { 
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:<select id="sel_Custome" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
+                @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+                { 
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 4px;">
+        <div class="col-md-2">
+            业务种类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;">
+                <option value="-1">请选择</option>
+                <option value="1">启用</option>
+                <option value="0">禁用</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            订单状态:<select id="sel_Status" class="form-control" style="display: inline; width: 120px;">
+                <option value="-1">请选择</option>
+                <option value="1">启用</option>
+                <option value="0">禁用</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-8" style="text-align: center">
+            <input type="button" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
+        </div>
+    </div>
+</form>
+<h4 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a></h4>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>交易流水号</th>
+                <th>业务类型</th>
+                <th>交易时间</th>
+                <th>业务状态</th>
+                <th>交易额</th>
+                <th>手续费</th>
+                <th>补贴费</th>
+                <th>交易对方</th>
+                <th>客户</th>
+                <th>订单数量</th>
+                <th>师傅详情</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>序号</td>
+                <td>交易流水号</td>
+                <td>业务类型</td>
+                <td>交易时间</td>
+                <td>业务状态</td>
+                <td>交易额</td>
+                <td>手续费</td>
+                <td>补贴费</td>
+                <td>交易对方</td>
+                <td>客户</td>
+                <td>订单数量</td>
+                <td>师傅详情</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>交易流水号</td>
+                <td>业务类型</td>
+                <td>交易时间</td>
+                <td>业务状态</td>
+                <td>交易额</td>
+                <td>手续费</td>
+                <td>补贴费</td>
+                <td>交易对方</td>
+                <td>客户</td>
+                <td>订单数量</td>
+                <td>师傅详情</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>交易流水号</td>
+                <td>业务类型</td>
+                <td>交易时间</td>
+                <td>业务状态</td>
+                <td>交易额</td>
+                <td>手续费</td>
+                <td>补贴费</td>
+                <td>交易对方</td>
+                <td>客户</td>
+                <td>订单数量</td>
+                <td>师傅详情</td>
+            </tr>
+    </table>
+</div>

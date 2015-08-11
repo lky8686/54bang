@@ -1,7 +1,10 @@
-﻿<div class="col-sm-3 col-md-2 sidebar">
+﻿@{
+    var url = Request.Url.AbsolutePath;
+}
+<div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
-        <li class="active"><a href="/Employee/Index">师傅管理</a></li>
-        <li><a href="/Order/Index">订单管理</a></li>
+        <li class="@Html.Raw(url.ToLower()=="/employee/index" ? "active" : "")"><a href="/Employee/Index">师傅管理</a></li>
+        <li class="@Html.Raw(url.ToLower()=="/order/index" ? "active" : "")"><a href="/Order/Index">订单管理</a></li>
     </ul>
 </div>
 

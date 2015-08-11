@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-2">
             地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区:
-            <select id="sel_City" class="form-control" style="display:inline; width:120px;">
+            <select id="sel_City" class="form-control" style="display: inline; width: 120px;">
                 <option value="-1">请选择</option>
                 @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
                 { 
@@ -16,21 +16,21 @@
             </select>
         </div>
         <div class="col-md-2">
-            服务分类:<select id="sel_ServiceType" class="form-control" style="display:inline; width:120px;"><option value="-1">请选择</option>
+            服务分类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
                 @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
                 { 
                     <option value="@item.Key">@item.Value</option>
                 }
             </select>
         </div>
-        <div class="col-md-4">注册时间:<input id="date_reg_start" class="form-control" style="display:inline; width:100px;" type="text" onclick="WdatePicker()" />-<input id="date_reg_end" type="text" onclick="WdatePicker()" class="form-control" style="display:inline; width:100px;" /></div>
+        <div class="col-md-4">注册时间:<input id="date_reg_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_reg_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
     </div>
-    <div class="row" style="margin-top:4px;">
+    <div class="row" style="margin-top: 4px;">
         <div class="col-md-2">
-            师傅号码:<input type="text" id="txt_mobile" class="form-control" style="display:inline; width:120px;"/>
+            师傅号码:<input type="text" id="txt_mobile" class="form-control" style="display: inline; width: 120px;" />
         </div>
         <div class="col-md-2">
-            账户状态:<select id="sel_Status" class="form-control" style="display:inline; width:120px;">
+            账户状态:<select id="sel_Status" class="form-control" style="display: inline; width: 120px;">
                 <option value="-1">请选择</option>
                 <option value="1">启用</option>
                 <option value="0">禁用</option>
@@ -39,7 +39,7 @@
     </div>
     <div class="row" style="margin-top: 5px;">
         <div class="col-md-8" style="text-align: center">
-            <input type="button" class="btn btn-default" value="查询" />
+            <input type="button" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
         </div>
     </div>
 </form>
@@ -48,34 +48,74 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
+                <th>序号</th>
+                <th>选择</th>
+                <th>师傅账户</th>
+                <th>姓名</th>
+                <th>账户状态</th>
+                <th>信用等级</th>
+                <th>技能</th>
+                <th>注册时间</th>
+                <th>在线时长</th>
+                <th>在线时长</th>
+                <th>订单数量</th>
+                <th>师傅详情</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
+                <td>序号</td>
+                <td>选择</td>
+                <td>师傅账户</td>
+                <td>姓名</td>
+                <td>账户状态</td>
+                <td>信用等级</td>
+                <td>技能</td>
+                <td>注册时间</td>
+                <td>在线时长</td>
+                <td>在线时长</td>
+                <td>订单数量</td>
+                <td>师傅详情</td>
             </tr>
             <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
+                <td>序号</td>
+                <td>选择</td>
+                <td>师傅账户</td>
+                <td>姓名</td>
+                <td>账户状态</td>
+                <td>信用等级</td>
+                <td>技能</td>
+                <td>注册时间</td>
+                <td>在线时长</td>
+                <td>在线时长</td>
+                <td>订单数量</td>
+                <td>师傅详情</td>
             </tr>
             <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
+                <td>序号</td>
+                <td>选择</td>
+                <td>师傅账户</td>
+                <td>姓名</td>
+                <td>账户状态</td>
+                <td>信用等级</td>
+                <td>技能</td>
+                <td>注册时间</td>
+                <td>在线时长</td>
+                <td>在线时长</td>
+                <td>订单数量</td>
+                <td>师傅详情</td>
             </tr>
     </table>
+</div>
+<div class="bang-pagination">
+    <span class="page-nav">
+        <a href="javascript:;" class="btn  btn-xs btn-default">首页</a>
+        <a href="javascript:;" class="btn btn-xs btn-default btn-prev">&lt;</a>
+        <a href="javascript:;" class="btn btn-xs btn-default active">1</a>
+        <a href="javascript:;" onclick="job_search_page(2)" class="btn btn-xs btn-default">2</a>
+        <a href="javascript:;" onclick="job_search_page(3)" class="btn btn-xs btn-default">3</a>
+        <a href="javascript:;" onclick="job_search_page(4)" class="btn btn-xs btn-default">4</a>
+        <a href="javascript:;" onclick="job_search_page(5)" class="btn btn-xs btn-default">5</a>
+        <a href="javascript:;" onclick="job_search_page(2)" class="btn btn-xs btn-default btn-next">&gt;</a>
+    </span>
 </div>
