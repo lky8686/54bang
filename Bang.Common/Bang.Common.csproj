@@ -33,6 +33,12 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\Bins\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.HSSF">
+      <HintPath>..\Bins\NPOI.HSSF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -45,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BangSecurity.cs" />
     <Compile Include="CookieManager.cs" />
+    <Compile Include="ExcelHelper.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

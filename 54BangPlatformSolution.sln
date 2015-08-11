@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bang.Business", "Bang.Busin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bang.DataAccess", "Bang.DataAccess\Bang.DataAccess.csproj", "{E1371A2B-2EBC-4574-919B-7B0D5203FDE3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bins", "Bins", "{B2B0725D-D577-43A6-A9F0-FE24923C75B1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bang.Common", "Bang.Common\Bang.Common.csproj", "{D66A9E9D-BA53-4C08-972E-1D2EE5AD270D}"
 EndProject
 Global
