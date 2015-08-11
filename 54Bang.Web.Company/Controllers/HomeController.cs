@@ -1,4 +1,7 @@
-﻿using System;
+﻿using _54Bang.Web.Company.Authentication;
+using Bang.Business;
+using Bang.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,6 +9,7 @@ using System.Web.Mvc;
 
 namespace _54Bang.Web.Company.Controllers
 {
+    [CompanyAuthorize]
     public class HomeController : Controller
     {
         //
@@ -25,32 +29,30 @@ namespace _54Bang.Web.Company.Controllers
         [AllowAnonymous]
         public ActionResult Login(string loginUserName, string loginPassword)
         {
-            //UsersService usvr = new UsersService();
-            //loginPassword = RCSecurity.MD5Hex(loginPassword);
-            //var user = usvr.VerifyUserLogin(loginUserName, loginPassword);
+            #region
+            var user = CompanyManager.VerifyUserLogin(loginUserName, loginPassword);
 
-            //if (user != null)
-            //{
-            //    new OperationLogService().Add(user.TenantId, user.UserId, LogType.Login, "登录");
-            //    if (user.Status == 1)
-            //    {
-            //        RCAuthentication.Instance.SignIn(user);
-            //    }
-            //    else
-            //    {
-            //        //return Json("true");
-            //        ViewBag.Flag = user.Status;
-            //        ViewBag.LoginName = loginUserName;
-            //        return View();
-            //    }
-            //}
-            //else
-            //{
-            //    ViewBag.Flag = "-1";
-            //    ViewBag.LoginName = loginUserName;
-            //    //return Json("false");
-            //    return View();
-            //}
+            if (user != null)
+            {                
+                if (user.Status == 1)
+                {
+                    LoginAuthentication.Instance.SignIn(user);
+                }
+                else
+                {
+                    //return Json("true");
+                    ViewBag.Flag = user.Status;
+                    ViewBag.LoginName = loginUserName;
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.Flag = "-1";
+                ViewBag.LoginName = loginUserName;
+                //return Json("false");
+                return View();
+            }
             //如果登录成功，跳转到 ReturnUrl 制定的地址
             if (string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]) == false)
             {
@@ -60,11 +62,12 @@ namespace _54Bang.Web.Company.Controllers
             {
                 return RedirectToAction("Index");
             }
+            #endregion
         }
 
         public ActionResult Logout()
-        {            
-            //RCAuthentication.Instance.SignOut();
+        {
+            LoginAuthentication.Instance.SignOut();
             return RedirectToAction("Login");
         }
     }

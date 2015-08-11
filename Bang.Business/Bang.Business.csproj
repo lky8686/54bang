@@ -39,7 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompanyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bang.DataAccess\Bang.DataAccess.csproj">
+      <Project>{e1371a2b-2ebc-4574-919b-7b0d5203fde3}</Project>
+      <Name>Bang.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bang.Models\Bang.Models.csproj">
+      <Project>{4dc9e979-c53d-4eff-9d14-63512004cb66}</Project>
+      <Name>Bang.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

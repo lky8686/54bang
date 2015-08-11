@@ -126,8 +126,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Authentication\CompanyAuthorizeAttribute.cs" />
     <Compile Include="Authentication\IAuthentication.cs" />
     <Compile Include="Authentication\LoginAuthentication.cs" />
+    <Compile Include="Authentication\UserContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -184,6 +186,10 @@
     <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bang.Business\Bang.Business.csproj">
+      <Project>{a98f29f7-0e2d-4821-9d84-61ae807cc676}</Project>
+      <Name>Bang.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bang.Common\Bang.Common.csproj">
       <Project>{d66a9e9d-ba53-4c08-972e-1d2ee5ad270d}</Project>
       <Name>Bang.Common</Name>
@@ -207,15 +213,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3267</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:3267/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://company.bang.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

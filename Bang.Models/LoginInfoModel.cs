@@ -11,7 +11,7 @@ namespace Bang.Models
     public class LoginInfoModel
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int TenantId { get; set; }
+        public int CompanyId { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int UserId { get; set; }
@@ -21,10 +21,6 @@ namespace Bang.Models
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
-
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int Role { get; set; }
 
         /// <summary>
         /// 用户状态（1启用，0停用）
