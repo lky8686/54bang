@@ -23,5 +23,34 @@ namespace Bang.Models
                 return (RecordCount / PageSize + (count > 0 ? 1 : 0));
             }
         }
+        public int StartIndex
+        {
+            get
+            {
+                if (CurrentIndex <= 3)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return (CurrentIndex - 2);
+                }
+            }
+        }
+        public int EndIndex
+        {
+            get
+            {
+                var endIndex = StartIndex + 4;
+                if (endIndex >= PageCount)
+                {
+                    return PageCount;
+                }
+                else
+                {
+                    return endIndex;
+                }
+            }
+        }
     }
 }

@@ -1,14 +1,39 @@
 ﻿@model Bang.Models.PageBarInfoModel
-<div class="row bang-pagination">
-    <span class="page-nav">
-        <a href="javascript:;" class="btn  btn-xs btn-default">首页</a>
-        <a href="javascript:;" class="btn btn-xs btn-default btn-prev">&lt;</a>
-        <a href="javascript:;" class="btn btn-xs btn-default active">1</a>
-        <a href="javascript:;" onclick="job_search_page(2)" class="btn btn-xs btn-default">2</a>
-        <a href="javascript:;" onclick="job_search_page(3)" class="btn btn-xs btn-default">3</a>
-        <a href="javascript:;" onclick="job_search_page(4)" class="btn btn-xs btn-default">4</a>
-        <a href="javascript:;" onclick="job_search_page(5)" class="btn btn-xs btn-default">5</a>
-        <a href="javascript:;" onclick="job_search_page(2)" class="btn btn-xs btn-default btn-next">&gt;</a>
-    </span>
-</div>
-@Model.CurrentIndex
+@if (Model != null)
+{
+    if (Model.CurrentIndex == 0) {
+        Model.CurrentIndex = 1;
+    }
+    var startIndex = Model.StartIndex;
+    var endIndex = Model.EndIndex;
+    var preIndex = Model.CurrentIndex - 1;
+    
+    if (preIndex <= 0)
+    {
+        preIndex = 1;
+    }
+    var nextIndex = Model.CurrentIndex + 1;
+    if (nextIndex > Model.PageCount)
+    {
+        nextIndex = Model.CurrentIndex;
+    }
+    <div class="row bang-pagination">
+        @Model.CurrentIndex / @Model.PageCount
+        <span class="page-nav">
+            <a href="javascript:;" class="btn btn-xs btn-default">首页</a>
+            <a href="javascript:;" onclick="bang_search_page(@preIndex)" class="btn btn-xs btn-default btn-prev">&lt;</a>
+            @while (startIndex <= endIndex)
+            {            
+                <a href="javascript:;" onclick="bang_search_page(@startIndex)" class="btn btn-xs btn-default @Html.Raw(startIndex == Model.CurrentIndex ? "active" : "")">@startIndex</a>
+                startIndex++;
+            }
+            <a href="javascript:;" onclick="bang_search_page(@nextIndex)" class="btn btn-xs btn-default btn-next">&gt;</a>
+        </span>
+    </div>
+
+    <script type="text/javascript">
+        function bang_search_page(index) {
+            alert(index)
+        }
+    </script>
+}

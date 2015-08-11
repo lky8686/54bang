@@ -107,15 +107,4 @@
             </tr>
     </table>
 </div>
-<div class="row bang-pagination">
-    <span class="page-nav">
-        <a href="javascript:;" class="btn  btn-xs btn-default">首页</a>
-        <a href="javascript:;" class="btn btn-xs btn-default btn-prev">&lt;</a>
-        <a href="javascript:;" class="btn btn-xs btn-default active">1</a>
-        <a href="javascript:;" onclick="job_search_page(2)" class="btn btn-xs btn-default">2</a>
-        <a href="javascript:;" onclick="job_search_page(3)" class="btn btn-xs btn-default">3</a>
-        <a href="javascript:;" onclick="job_search_page(4)" class="btn btn-xs btn-default">4</a>
-        <a href="javascript:;" onclick="job_search_page(5)" class="btn btn-xs btn-default">5</a>
-        <a href="javascript:;" onclick="job_search_page(2)" class="btn btn-xs btn-default btn-next">&gt;</a>
-    </span>
-</div>
+@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = 10, RecordCount = 9, CurrentIndex =0 })
