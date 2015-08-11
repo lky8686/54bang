@@ -130,7 +130,9 @@
     <Compile Include="Authentication\IAuthentication.cs" />
     <Compile Include="Authentication\LoginAuthentication.cs" />
     <Compile Include="Authentication\UserContext.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -142,6 +144,7 @@
     <Content Include="Resources\css\bootstrap-theme.min.css" />
     <Content Include="Resources\css\bootstrap.css" />
     <Content Include="Resources\css\bootstrap.min.css" />
+    <Content Include="Resources\js\basedata.js" />
     <Content Include="Resources\js\bootstrap.js" />
     <Content Include="Resources\js\bootstrap.min.js" />
     <Content Include="Resources\js\jquery.min.js" />
@@ -198,6 +201,12 @@
       <Project>{4dc9e979-c53d-4eff-9d14-63512004cb66}</Project>
       <Name>Bang.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Employee\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

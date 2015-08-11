@@ -9,6 +9,8 @@
     <!-- Bootstrap abc test-->
     <link href="/Resources/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this template -->
+    <link href="/Resources/css/dashboard.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -18,31 +20,11 @@
 
 </head>
 <body>
-    <!--container-fluid-->
-    <div class="container">
+    @Html.Partial("TopMenu")
+    <div class="container-fluid">
         <div class="row">
-            &nbsp;
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                LOGO 师傅帮公司师傅管理平台
-            </div>
-            <div class="col-md-5">
-                您好:@_54Bang.Web.Company.Authentication.UserContext.Current.UserName 欢迎登录系统！
-            </div>
-            <div class="col-md-4" style="text-align: right">
-                <a href="/home/Logout">退出</a>
-            </div>
-        </div>
-        <div class="row">
-            &nbsp;
-        </div>
-        <div class="row">
-            <div class="col-md-3" style="border: 1px solid #0094ff;">
-                @Html.Partial("LeftMenu")
-            </div>
-            <div class="col-md-9" style="border: 1px solid #0094ff;">
-                right
+            @Html.Partial("LeftMenu")
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 @RenderBody()
             </div>
         </div>
