@@ -149,6 +149,7 @@
     <Content Include="Resources\js\bootstrap.js" />
     <Content Include="Resources\js\bootstrap.min.js" />
     <Content Include="Resources\js\jquery.min.js" />
+    <Content Include="Resources\js\json2.js" />
     <Content Include="Resources\js\My97DatePicker\calendar.js" />
     <Content Include="Resources\js\My97DatePicker\config.js" />
     <Content Include="Resources\js\My97DatePicker\lang\en.js" />
@@ -164,6 +165,7 @@
     <Content Include="Resources\js\My97DatePicker\skin\whyGreen\img.gif" />
     <Content Include="Resources\js\My97DatePicker\WdatePicker.js" />
     <Content Include="Resources\js\npm.js" />
+    <Content Include="Resources\js\PagePromptBox.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
