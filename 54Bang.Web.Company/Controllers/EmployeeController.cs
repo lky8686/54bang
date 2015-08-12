@@ -21,11 +21,26 @@ namespace _54Bang.Web.Company.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 增加师傅
+        /// </summary>
+        /// <param name="mobileList"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Add(string mobileList)
         {
             return Json(new { success = true, msg = mobileList });
         }
 
+        /// <summary>
+        /// 解除师傅
+        /// </summary>
+        /// <param name="empIds"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Layoff(string empIds)
+        {
+            return Json(new { success = true, msg = empIds });
+        }
     }
 }
