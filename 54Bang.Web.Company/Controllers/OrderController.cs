@@ -23,6 +23,19 @@ namespace _54Bang.Web.Company.Controllers
         }
 
         [HttpPost]
+        public ActionResult Query(string city, string startDate, string endDate, string empAccount, string customer, string serviceType, string status, int pageIndex)
+        {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult ExportExcel(int jobId, string jobTitle, int[] id)//id is candidateid
         {
             const string title = "Rank$序号,JobTitle$推荐职位,PhaseText$招聘阶段,Recommender$关联顾问,RecommendDateText$关联时间," +

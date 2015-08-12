@@ -15,7 +15,7 @@
                 }
             </select>
         </div>
-        <div class="col-md-3">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期:<input id="date_reg_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_reg_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
+        <div class="col-md-3">日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
         <div class="col-md-2">
             师傅账户:<select id="sel_EmpAccount" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
                 @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
@@ -25,7 +25,7 @@
             </select>
         </div>
         <div class="col-md-2">
-            客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:<select id="sel_Custome" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
+            客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户:<select id="sel_Customer" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
                 @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
                 { 
                     <option value="@item.Key">@item.Value</option>
@@ -51,64 +51,50 @@
     </div>
     <div class="row" style="margin-top: 5px;">
         <div class="col-md-8" style="text-align: center">
-            <input type="button" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
+            <input type="button" id="btn_Query" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
         </div>
     </div>
 </form>
 <h4 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a></h4>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>序号</th>
-                <th>交易流水号</th>
-                <th>业务类型</th>
-                <th>交易时间</th>
-                <th>业务状态</th>
-                <th>交易额</th>
-                <th>手续费</th>
-                <th>补贴费</th>
-                <th>交易对方</th>
-                <th>客户</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>序号</td>
-                <td>交易流水号</td>
-                <td>业务类型</td>
-                <td>交易时间</td>
-                <td>业务状态</td>
-                <td>交易额</td>
-                <td>手续费</td>
-                <td>补贴费</td>
-                <td>交易对方</td>
-                <td>客户</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>交易流水号</td>
-                <td>业务类型</td>
-                <td>交易时间</td>
-                <td>业务状态</td>
-                <td>交易额</td>
-                <td>手续费</td>
-                <td>补贴费</td>
-                <td>交易对方</td>
-                <td>客户</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>交易流水号</td>
-                <td>业务类型</td>
-                <td>交易时间</td>
-                <td>业务状态</td>
-                <td>交易额</td>
-                <td>手续费</td>
-                <td>补贴费</td>
-                <td>交易对方</td>
-                <td>客户</td>
-            </tr>
-    </table>
+<div id="div_DataList">
+    Loading...
 </div>
-@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = 10, RecordCount = 193, CurrentIndex = 9 })
+<script type="text/javascript">
+    function bang_pb_callback_fn(index) {
+        $("#btn_Query").click();
+    }
+
+    $(function () {
+        $("#btn_Query").on("click", function () {
+            var pi = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            var postData = {
+                city: $("#sel_City option:selected").val(),
+                startDate: $("#date_start").val(),
+                endDate: $("#date_end").val(),
+                empAccount: $("#sel_EmpAccount option:selected").val(),
+                customer: $("#sel_Customer option:selected").val(),
+                serviceType: $("#sel_ServiceType option:selected").val(),
+                status: $("#sel_Status option:selected").val(),
+                pageIndex: pi
+            };
+            alert(JSON.stringify(postData))
+            $("#btn_Query").attr("disabled", true);
+            $.ajax({
+                type: 'post',
+                url: "/Order/Query",
+                data: postData,
+                success: function (data) {
+                    $("#btn_Query").removeAttr("disabled");
+                    $("#div_DataList").html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#btn_Query").removeAttr("disabled");
+                    alert("系统异常，请稍后再试！" + errorThrown);
+                }
+            });
+        })
+
+
+        bang_pb_callback_fn(1);
+    })
+</script>
