@@ -35,6 +35,37 @@ namespace _54Bang.Web.Company.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 结算管理
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Settlement()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SettlementQuery(string year, string month)
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 师傅交易统计
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult EmpOrder()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EmpOrderQuery(string year, string month, string empAccount)
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult ExportExcel(string jsonData)//id is candidateid
         {
