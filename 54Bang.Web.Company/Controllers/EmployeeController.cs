@@ -42,5 +42,22 @@ namespace _54Bang.Web.Company.Controllers
         {
             return Json(new { success = true, msg = empIds });
         }
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Query(string city, string serviceType, string regStartDate, string regEndDate, string mobile, string status, int pageIndex)
+        {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
+
+            return View();
+        }
     }
 }

@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-2">
             服务分类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
-                @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+                @foreach (var item in Bang.Business.BaseDataManager.ServiceTypeList())
                 { 
                     <option value="@item.Key">@item.Value</option>
                 }
@@ -45,71 +45,9 @@
     </div>
 </form>
 <h4 class="sub-header"><a id="AddEmp" class="btn btn-default" href="#" role="button">添加师傅</a>&nbsp;&nbsp;<a id="LayoffEmp" class="btn btn-default" href="#" role="button">解除师傅</a></h4>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    <input type="checkbox" name="chk_all" />
-                    序号</th>
-                <th>师傅账户</th>
-                <th>姓名</th>
-                <th>账户状态</th>
-                <th>信用等级</th>
-                <th>技能</th>
-                <th>注册时间</th>
-                <th>在线时长</th>
-                <th>订单数量</th>
-                <th>师傅详情</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>
-                    <input type="checkbox" />
-                    序号</th>
-                <td>师傅账户</td>
-                <td>姓名</td>
-                <td>账户状态</td>
-                <td>信用等级</td>
-                <td>技能</td>
-                <td>注册时间</td>
-                <td>在线时长</td>
-                <td>订单数量</td>
-                <td>师傅详情</td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="checkbox" />
-                    序号</td>
-                <td>师傅账户</td>
-                <td>姓名</td>
-                <td>账户状态</td>
-                <td>信用等级</td>
-                <td>技能</td>
-                <td>注册时间</td>
-                <td>在线时长</td>
-                <td>订单数量</td>
-                <td>师傅详情</td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="checkbox" />
-                    序号</td>
-                <td>师傅账户</td>
-                <td>姓名</td>
-                <td>账户状态</td>
-                <td>信用等级</td>
-                <td>技能</td>
-                <td>注册时间</td>
-                <td>在线时长</td>
-                <td>订单数量</td>
-                <td>师傅详情</td>
-            </tr>
-    </table>
+<div id="div_DataList">
+    Loading...
 </div>
-@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = 10, RecordCount = 9, CurrentIndex = 0 })
-
 <script type="text/html" id="tempAddEmp">
     <div style="width: 500px;">
         手机号:<input type="text" id="layer_mobile" /><input type="button" value="增加" id="layer_add" />
@@ -133,6 +71,9 @@
 
 <script type="text/javascript" src="/Resources/js/PagePromptBox.js"></script>
 <script type="text/javascript">
+    function bang_pb_callback_fn(index) {
+        $("#btn_Query").click();
+    }
     $(function () {
         $("#AddEmp").on("click", function () {
             webPB.showDialog({ title: "添加师傅", msg: $("#tempAddEmp").html() });
@@ -187,7 +128,33 @@
 
         //查询
         $("#btn_Query").on("click", function () {
+            var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            var postData = {
+                city: $("#sel_City").find("option:selected").val(),
+                serviceType: $("#sel_ServiceType").find("option:selected").val(),
+                regStartDate: $("#date_reg_start").val(),
+                regEndDate: $("#date_reg_end").val(),
+                mobile: $("#txt_mobile").val(),
+                status: $("#sel_Status").find("option:selected").val(),
+                pageIndex: pageIndex
+            };
+            alert(JSON.stringify(postData))
+            $("#btn_Query").attr("disabled", true);
+            $.ajax({
+                type: 'post',
+                url: "/Employee/Query",
+                data: postData,
+                success: function (data) {
+                    $("#btn_Query").removeAttr("disabled");
+                    $("#div_DataList").html(data);
 
+                    initTableChkEvent();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#btn_Query").removeAttr("disabled");
+                    alert("系统异常，请稍后再试！");
+                }
+            });
         })
         //解除
         $("#LayoffEmp").on("click", function () {
@@ -216,7 +183,6 @@
                     } else {
                         alert("保存失败:" + data.msg)
                     }
-                    webPB.close();
                 },
                 dataType: "JSON",
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -227,25 +193,29 @@
         })
 
         //列表chkbox
-        $("table [name='chk_all']").on("click", function () {
-            $("table input[name!='chk_all']").prop("checked", this.checked);
-        })
-        $("table input[name!='chk_all']").on("click", function () {
-            if (this.checked == false) {
-                $("table [name='chk_all']").prop("checked", false);
-            } else {
-                var chkList = $("table input[name!='chk_all']");
-                var chkCount = 0;
-                chkList.each(function () {
-                    if ($(this).prop("checked")) {
-                        chkCount++;
+        function initTableChkEvent() {
+            $("table [name='chk_all']").on("click", function () {
+                $("table input[name!='chk_all']").prop("checked", this.checked);
+            })
+            $("table input[name!='chk_all']").on("click", function () {
+                if (this.checked == false) {
+                    $("table [name='chk_all']").prop("checked", false);
+                } else {
+                    var chkList = $("table input[name!='chk_all']");
+                    var chkCount = 0;
+                    chkList.each(function () {
+                        if ($(this).prop("checked")) {
+                            chkCount++;
+                        }
+                    })
+                    if (chkCount == chkList.length) {
+                        $("table [name='chk_all']").prop("checked", true);
                     }
-                })
-                if (chkCount == chkList.length) {
-                    $("table [name='chk_all']").prop("checked", true);
                 }
-            }
-        });
+            });
+        }
+
+        $("#btn_Query").click();
     });
 </script>
 

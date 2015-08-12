@@ -1,13 +1,14 @@
 ﻿@model Bang.Models.PageBarInfoModel
 @if (Model != null)
 {
-    if (Model.CurrentIndex == 0) {
+    if (Model.CurrentIndex == 0)
+    {
         Model.CurrentIndex = 1;
     }
     var startIndex = Model.StartIndex;
     var endIndex = Model.EndIndex;
     var preIndex = Model.CurrentIndex - 1;
-    
+
     if (preIndex <= 0)
     {
         preIndex = 1;
@@ -20,7 +21,7 @@
     <div class="row bang-pagination">
         @Model.CurrentIndex / @Model.PageCount
         <span class="page-nav">
-            <a href="javascript:;" class="btn btn-xs btn-default">首页</a>
+            <a href="javascript:;" onclick="bang_search_page(1)" class="btn btn-xs btn-default">首页</a>
             <a href="javascript:;" onclick="bang_search_page(@preIndex)" class="btn btn-xs btn-default btn-prev">&lt;</a>
             @while (startIndex <= endIndex)
             {            
@@ -29,11 +30,14 @@
             }
             <a href="javascript:;" onclick="bang_search_page(@nextIndex)" class="btn btn-xs btn-default btn-next">&gt;</a>
         </span>
+        <input type="hidden" id="pb_new_index" value="@Model.CurrentIndex" />
     </div>
 
     <script type="text/javascript">
         function bang_search_page(index) {
-            alert(index)
+            //alert(index)
+            $("#pb_new_index").val(index);
+            bang_pb_callback_fn(index);
         }
     </script>
 }
