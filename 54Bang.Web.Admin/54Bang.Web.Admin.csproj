@@ -131,7 +131,10 @@
     <Compile Include="Authentication\IAuthentication.cs" />
     <Compile Include="Authentication\LoginAuthentication.cs" />
     <Compile Include="Authentication\UserContext.cs" />
+    <Compile Include="Controllers\CompanyEmpController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -220,6 +223,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\PageBar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\Query.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\Trade.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\TradeQuery.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\Settlement.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Order\SettlementQuery.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
