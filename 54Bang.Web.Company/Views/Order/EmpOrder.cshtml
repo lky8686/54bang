@@ -1,7 +1,7 @@
 ﻿@{
-    ViewBag.Title = "EmpOrder";
+    ViewBag.Title = "师傅交易统计列表";
 }
-
+<h2 class="sub-header">师傅交易统计列表</h2>
 <div class="row">
     机构名称:@Html.Raw(_54Bang.Web.Company.Authentication.UserContext.Current.UserName)
     &nbsp;&nbsp;&nbsp;年:
@@ -18,7 +18,7 @@
                     <option value="@m" @Html.Raw(m == DateTime.Now.Month ? "selected" : "")>@m</option>
                 }
             </select>&nbsp;&nbsp;&nbsp;
-    师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;"/>
+    师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
     <input type="button" id="btn_Query" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
 </div>
 <h5 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a></h5>

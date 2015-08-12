@@ -47,7 +47,7 @@ namespace _54Bang.Web.Company.Controllers
         /// 查询
         /// </summary>
         /// <returns></returns>
-        public ActionResult Query(string city, string serviceType, string regStartDate, string regEndDate, string mobile, string status, int pageIndex)
+        public ActionResult Query(string empAccount, string status, string serviceType, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
 

@@ -23,7 +23,7 @@ namespace _54Bang.Web.Company.Controllers
         }
 
         [HttpPost]
-        public ActionResult Query(string city, string startDate, string endDate, string empAccount, string customer, string serviceType, string status, int pageIndex)
+        public ActionResult Query(string startDate, string endDate, string empAccount, string serviceType, string status, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
 
