@@ -14,27 +14,20 @@
         </div>
         <div class="col-md-2">
             订单状态:<select id="sel_Status" class="form-control" style="display: inline; width: 120px;">
-                <option value="全部">全部</option>
-                <option value="服务中">服务中</option>
-                <option value="等待支付">等待支付</option>
-                <option value="服务已完成">服务已完成</option>
-                <option value="已取消">已取消</option>
-                <option value="待退款">待退款</option>
+                <option value="-1">全部</option>
+                @foreach (var item in Bang.Business.BaseDataManager.OrderStatusList())
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
             </select>
         </div>
         <div class="col-md-2">
             服务分类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;">
-                <option selected value="全部">全部</option>
-                <option value="管道维修">管道维修</option>
-                <option value="上门洗车">上门洗车</option>
-                <option value="装修改造">装修改造</option>
-                <option value="家具">家具</option>
-                <option value="家用电器">家用电器</option>
-                <option value="手机电脑">手机电脑</option>
-                <option value="跑腿代办">跑腿代办</option>
-                <option value="开锁换锁">开锁换锁</option>
-                <option value="保洁家政">保洁家政</option>
-                <option value="其他">其他</option>
+                <option selected value="-1">全部</option>
+                @foreach (var item in Bang.Business.BaseDataManager.ServiceTypeList())
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
             </select>
         </div>
     </div>
