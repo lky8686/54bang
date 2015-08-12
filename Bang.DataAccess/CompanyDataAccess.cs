@@ -18,5 +18,15 @@ namespace Bang.DataAccess
                 Status = 1
             };
         }
+
+        public static List<object> GetEmpListBy(string companyId)
+        {
+            return new List<object>();
+        }
+
+        public static List<object> GetCustomerList(string companyId)
+        {
+            return new List<object>();
+        }
     }
 }

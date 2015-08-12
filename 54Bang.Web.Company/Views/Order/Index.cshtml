@@ -35,10 +35,11 @@
     </div>
     <div class="row" style="margin-top: 4px;">
         <div class="col-md-2">
-            业务种类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;">
-                <option value="-1">请选择</option>
-                <option value="1">启用</option>
-                <option value="0">禁用</option>
+            业务种类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;"><option value="-1">请选择</option>
+                @foreach (var item in Bang.Business.BaseDataManager.ServiceTypeList())
+                { 
+                    <option value="@item.Key">@item.Value</option>
+                }
             </select>
         </div>
         <div class="col-md-2">
