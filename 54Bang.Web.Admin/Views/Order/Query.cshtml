@@ -1,5 +1,59 @@
 ﻿@{
     Layout = null;
 }
-
-<h2>Query</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>订单号</th>
+                <th>交易时间</th>
+                <th>订单状态</th>
+                <th>服务分类</th>
+                <th>交易额</th>
+                <th>手续费</th>
+                <th>补贴费</th>
+                <th>师傅账户</th>
+                <th>用户账户</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>序号</td>
+                <td>订单号</td>
+                <td>交易时间</td>
+                <td>订单状态</td>
+                <td>服务分类</td>
+                <td>交易额</td>
+                <td>手续费</td>
+                <td>补贴费</td>
+                <td>师傅账户</td>
+                <td>用户账户</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>订单号</td>
+                <td>交易时间</td>
+                <td>订单状态</td>
+                <td>服务分类</td>
+                <td>交易额</td>
+                <td>手续费</td>
+                <td>补贴费</td>
+                <td>师傅账户</td>
+                <td>用户账户</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>订单号</td>
+                <td>交易时间</td>
+                <td>订单状态</td>
+                <td>服务分类</td>
+                <td>交易额</td>
+                <td>手续费</td>
+                <td>补贴费</td>
+                <td>师傅账户</td>
+                <td>用户账户</td>
+            </tr>
+    </table>
+</div>
+@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

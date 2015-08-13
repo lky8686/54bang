@@ -46,5 +46,15 @@ namespace Bang.Business
             result.Add(5, "待退款");
             return result;
         }
+
+        public static Dictionary<int, string> TradeStatusList()
+        {
+            var result = new Dictionary<int, string>();
+            result.Add(1, "成功交易");
+            result.Add(2, "失败交易");
+            result.Add(3, "退款交易");
+            result.Add(4, "进行中交易");
+            return result;
+        }
     }
 }

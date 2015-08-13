@@ -1,5 +1,72 @@
 ﻿@{
     Layout = null;
 }
+@{
+    Layout = null;
+}
 
-<h2>SettlementQuery</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>结算单号</th>
+                <th>对方编号</th>
+                <th>交易对方</th>
+                <th>结算生成日</th>
+                <th>收款人</th>
+                <th>收款人银行账号</th>
+                <th>收款银行</th>
+                <th>交易金额</th>
+                <th>补贴金额</th>
+                <th>提现金额</th>
+                <th>操作是否打出成功</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>序号</td>
+                <td>结算单号</td>
+                <td>对方编号</td>
+                <td>交易对方</td>
+                <td>结算生成日</td>
+                <td>收款人</td>
+                <td>收款人银行账号</td>
+                <td>收款银行</td>
+                <td>交易金额</td>
+                <td>补贴金额</td>
+                <td>提现金额</td>
+                <td>操作是否打出成功</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>结算单号</td>
+                <td>对方编号</td>
+                <td>交易对方</td>
+                <td>结算生成日</td>
+                <td>收款人</td>
+                <td>收款人银行账号</td>
+                <td>收款银行</td>
+                <td>交易金额</td>
+                <td>补贴金额</td>
+                <td>提现金额</td>
+                <td>操作是否打出成功</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>结算单号</td>
+                <td>对方编号</td>
+                <td>交易对方</td>
+                <td>结算生成日</td>
+                <td>收款人</td>
+                <td>收款人银行账号</td>
+                <td>收款银行</td>
+                <td>交易金额</td>
+                <td>补贴金额</td>
+                <td>提现金额</td>
+                <td>操作是否打出成功</td>
+            </tr>
+    </table>
+</div>
+@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })
+

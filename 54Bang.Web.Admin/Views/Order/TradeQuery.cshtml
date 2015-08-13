@@ -2,4 +2,51 @@
     Layout = null;
 }
 
-<h2>TradeQuery</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>订单号</th>
+                <th>银行流水号</th>
+                <th>订单时间</th>
+                <th>清算机构</th>
+                <th>订单金额</th>
+                <th>手续费</th>
+                <th>交易状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>序号</td>
+                <td>订单号</td>
+                <td>银行流水号</td>
+                <td>订单时间</td>
+                <td>清算机构</td>
+                <td>订单金额</td>
+                <td>手续费</td>
+                <td>交易状态</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>订单号</td>
+                <td>银行流水号</td>
+                <td>订单时间</td>
+                <td>清算机构</td>
+                <td>订单金额</td>
+                <td>手续费</td>
+                <td>交易状态</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>订单号</td>
+                <td>银行流水号</td>
+                <td>订单时间</td>
+                <td>清算机构</td>
+                <td>订单金额</td>
+                <td>手续费</td>
+                <td>交易状态</td>
+            </tr>
+    </table>
+</div>
+@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

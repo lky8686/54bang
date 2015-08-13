@@ -1,5 +1,82 @@
 ﻿@{
-    ViewBag.Title = "Trade";
+    ViewBag.Title = "交易管理";
+    
 }
 
-<h2>Trade</h2>
+<h2 class="sub-header">交易管理</h2>
+<form>
+    <div class="row">
+        地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
+            <option value="-1">全部</option>
+            @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
+        &nbsp;&nbsp;&nbsp;起止时间:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" />
+        &nbsp;&nbsp;&nbsp;订单号:<input type="text" id="txt_OrderNum" value="" class="form-control" style="display: inline; width: 120px;" />
+        &nbsp;&nbsp;&nbsp;银行流水号:<input type="text" id="txt_BankSerialNumber" value="" class="form-control" style="display: inline; width: 120px;" />
+        &nbsp;&nbsp;&nbsp;交易状态:<select id="sel_TradeStatus" class="form-control" style="display: inline; width: 120px;">
+            <option value="-1">全部</option>
+            @foreach (var item in Bang.Business.BaseDataManager.TradeStatusList())
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
+        &nbsp;&nbsp;&nbsp;清算机构:<select id="sel_TradeOrg" class="form-control" style="display: inline; width: 120px;">
+            <option selected value="-1">全部</option>
+            <option value="微信财付通">微信财付通</option>
+            <option value="支付宝">支付宝</option>
+        </select>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-8" style="text-align: center">
+            <input type="button" id="btn_Query" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
+        </div>
+    </div>
+</form>
+<h4 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 交易金额合计：￥12222.00 手续费金额合计：122.00
+总笔数：123
+</h4>
+<div id="div_DataList">
+    Loading...
+</div>
+<script type="text/javascript">
+    function bang_pb_callback_fn(index) {
+        $("#btn_Query").click();
+    }
+    $(function () {
+        //查询
+        $("#btn_Query").on("click", function () {
+            var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            var postData = {
+                city: $("#sel_City option:selected").val(),
+                startDate: $("#date_start").val(),
+                endDate: $("#date_end").val(),
+                orderNum: $("#txt_OrderNum").val(),
+                bankSerialNumber: $("#txt_BankSerialNumber").val(),
+                tradeStatus: $("#sel_TradeStatus option:selected").val(),
+                tradeOrg: $("#sel_TradeOrg option:selected").val(),
+                pageIndex: pageIndex
+            };
+            alert(JSON.stringify(postData))
+            $("#btn_Query").attr("disabled", true);
+            $.ajax({
+                type: 'post',
+                url: "/Order/TradeQuery",
+                data: postData,
+                success: function (data) {
+                    $("#btn_Query").removeAttr("disabled");
+                    $("#div_DataList").html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#btn_Query").removeAttr("disabled");
+                    alert("系统异常，请稍后再试！");
+                }
+            });
+        })
+
+        $("#btn_Query").click();
+    });
+</script>
+

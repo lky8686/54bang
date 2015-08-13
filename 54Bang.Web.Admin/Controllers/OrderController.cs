@@ -20,8 +20,15 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Query()
+        public ActionResult Query(string city, string startDate, string endDate, string empAccount, string orderStatus, string serviceType, int pageIndex)
         {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
             return View();
         }
 
@@ -35,8 +42,15 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult TradeQuery()
+        public ActionResult TradeQuery(string city, string startDate, string endDate, string orderNum, string bankSerialNumber, string tradeStatus, string sel_TradeOrg, int pageIndex)
         {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
             return View();
         }
 
@@ -50,8 +64,15 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SettlementQuery()
+        public ActionResult SettlementQuery(string city, string company, string companyEmp, string settlementNum, string startDate, string endDate, string settlementStatus, int pageIndex)
         {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
             return View();
         }
 
