@@ -254,6 +254,9 @@
   <ItemGroup>
     <Content Include="Views\CompanyEmp\Query.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CompanyEmp\RecommendQuery.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

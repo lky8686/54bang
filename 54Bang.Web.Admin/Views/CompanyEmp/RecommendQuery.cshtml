@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>师傅账户</th>
+                <th>师傅姓名</th>
+                <th>推荐用户数量</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>序号</td>
+                <td>师傅账户</td>
+                <td>师傅姓名</td>
+                <td>推荐用户数量</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>师傅账户</td>
+                <td>师傅姓名</td>
+                <td>推荐用户数量</td>
+            </tr>
+            <tr>
+                <td>序号</td>
+                <td>师傅账户</td>
+                <td>师傅姓名</td>
+                <td>推荐用户数量</td>
+            </tr>
+    </table>
+</div>
+@Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

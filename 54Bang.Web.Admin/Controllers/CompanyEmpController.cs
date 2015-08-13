@@ -37,6 +37,18 @@ namespace _54Bang.Web.Admin.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult RecommendQuery(string city,string year,string month,string company,string empAccount,int pageIndex)
+        {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
+            return View();
+        }
 
     }
 }
