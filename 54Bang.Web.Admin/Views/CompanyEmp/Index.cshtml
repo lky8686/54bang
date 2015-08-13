@@ -1,5 +1,195 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "平台师傅列表";
+    
 }
 
-<h2>Index</h2>
+<h2 class="sub-header">平台师傅列表</h2>
+<form>
+    <div class="row">
+        <div class="col-md-2">
+            地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
+                <option value="-1">全部</option>
+                @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            服务分类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;">
+                <option selected value="-1">全部</option>
+                @foreach (var item in Bang.Business.BaseDataManager.ServiceTypeList())
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">注册日期:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
+    </div>
+    <div class="row" style="margin-top:4px;">
+        <div class="col-md-2">
+            一级公司:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
+        </div>
+        <div class="col-md-2">
+            师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-8" style="text-align: center">
+            <input type="button" id="btn_Query" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
+        </div>
+    </div>
+</form>
+<h4 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">冻结</a>&nbsp;&nbsp;<a id="downloadList" class="btn btn-default" href="#" role="button">解冻</a></h4>
+<div id="div_DataList">
+    Loading...
+</div>
+<script type="text/javascript">
+    function bang_pb_callback_fn(index) {
+        $("#btn_Query").click();
+    }
+    $(function () {
+        $("#AddEmp").on("click", function () {
+            webPB.showDialog({ title: "添加师傅", msg: $("#tempAddEmp").html() });
+            var index = 1;
+            $("#layer_add").on("click", function () {
+                var mobile = $("#layer_mobile").val();
+                var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+                if (reg.test(mobile)) {
+                    //alert("号码正确~");
+                    if ($("#layer_mobile_" + mobile).length != 0) {
+                        alert("已存在该手机号:" + mobile)
+                        return;
+                    }
+                    $("<tr id='layer_mobile_" + mobile + "'><td>" + index + "</td><td>" + mobile + "</td></tr>").appendTo("#layer_mobile_list")
+                    if ($("#layer_mobile_list").attr("data-list") == undefined) {
+                        $("#layer_mobile_list").attr("data-list", mobile)
+                    } else {
+                        $("#layer_mobile_list").attr("data-list", $("#layer_mobile_list").attr("data-list") + ";" + mobile)
+                    }
+                    index++;
+                    $("#layer_mobile").val("")
+                    //alert($("#layer_mobile_list").attr("data-list"))
+                } else {
+                    alert("号码有误~");
+                };
+            })
+            $("#layer_Confirm").on("click", function () {
+                if ($("#layer_mobile_list").attr("data-list") != undefined) {
+                    $("#layer_Confirm").attr("disabled", true);
+                    $.ajax({
+                        type: 'post',
+                        url: "/Employee/Add",
+                        data: { mobileList: $("#layer_mobile_list").attr("data-list") },
+                        success: function (data) {
+                            $("#layer_Confirm").removeAttr("disabled");
+                            if (data.success) {
+                                alert("保存成功:" + data.msg)
+                            } else {
+                                alert("保存失败:" + data.msg)
+                            }
+                            webPB.close();
+                        },
+                        dataType: "JSON",
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $("#layer_Confirm").removeAttr("disabled");
+                            alert("系统异常，请稍后再试！");
+                        }
+                    });
+                }
+            })
+        })
+
+        //查询
+        $("#btn_Query").on("click", function () {
+            var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            var postData = {
+                city: $("#sel_City option:selected").val(),
+                serviceType: $("#sel_ServiceType").find("option:selected").val(),
+                startDate: $("#date_start").val(),
+                endDate: $("#date_end").val(),
+                company: $("#txt_Company").val(),
+                empAccount: $("#txt_EmpAccount").val(),
+                pageIndex: pageIndex
+            };
+            alert(JSON.stringify(postData))
+            $("#btn_Query").attr("disabled", true);
+            $.ajax({
+                type: 'post',
+                url: "/CompanyEmp/Query",
+                data: postData,
+                success: function (data) {
+                    $("#btn_Query").removeAttr("disabled");
+                    $("#div_DataList").html(data);
+
+                    initTableChkEvent();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#btn_Query").removeAttr("disabled");
+                    alert("系统异常，请稍后再试！");
+                }
+            });
+        })
+        //解除
+        $("#LayoffEmp").on("click", function () {
+            var chkList = $("table input[name!='chk_all']");
+            var chkCount = 0;
+            chkList.each(function () {
+                if ($(this).prop("checked")) {
+                    chkCount++;
+                }
+            })
+            if (chkCount == 0) {
+                alert("请选择师傅")
+                return;
+            }
+
+            $("#LayoffEmp").attr("disabled", true);
+            var empIds = "1,2,4"
+            $.ajax({
+                type: 'post',
+                url: "/Employee/Layoff",
+                data: { empIds: empIds },
+                success: function (data) {
+                    $("#LayoffEmp").removeAttr("disabled");
+                    if (data.success) {
+                        alert("保存成功:" + data.msg)
+                    } else {
+                        alert("保存失败:" + data.msg)
+                    }
+                },
+                dataType: "JSON",
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#LayoffEmp").removeAttr("disabled");
+                    alert("系统异常，请稍后再试！");
+                }
+            });
+        })
+
+        //列表chkbox
+        function initTableChkEvent() {
+            $("table [name='chk_all']").on("click", function () {
+                $("table input[name!='chk_all']").prop("checked", this.checked);
+            })
+            $("table input[name!='chk_all']").on("click", function () {
+                if (this.checked == false) {
+                    $("table [name='chk_all']").prop("checked", false);
+                } else {
+                    var chkList = $("table input[name!='chk_all']");
+                    var chkCount = 0;
+                    chkList.each(function () {
+                        if ($(this).prop("checked")) {
+                            chkCount++;
+                        }
+                    })
+                    if (chkCount == chkList.length) {
+                        $("table [name='chk_all']").prop("checked", true);
+                    }
+                }
+            });
+        }
+
+        $("#btn_Query").click();
+    });
+</script>
+

@@ -16,6 +16,19 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Query(string city, string serviceType, string startDate, string endDate, string company, string empAccount, int pageIndex)
+        {
+            pageIndex = pageIndex <= 0 ? 1 : pageIndex;
+
+            //todo 
+
+            ViewBag.RecordCount = 93;
+            ViewBag.PageSize = 20;
+            ViewBag.CurrentIndex = pageIndex;
+            return View();
+        }
+
         /// <summary>
         /// 师傅推荐
         /// </summary>
