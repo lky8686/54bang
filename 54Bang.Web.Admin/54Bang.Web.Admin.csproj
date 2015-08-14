@@ -149,6 +149,7 @@
     <Content Include="Resources\css\dashboard.css" />
     <Content Include="Resources\js\bootstrap.js" />
     <Content Include="Resources\js\bootstrap.min.js" />
+    <Content Include="Resources\js\importToExcel.js" />
     <Content Include="Resources\js\jquery.min.js" />
     <Content Include="Resources\js\json2.js" />
     <Content Include="Resources\js\My97DatePicker\calendar.js" />
