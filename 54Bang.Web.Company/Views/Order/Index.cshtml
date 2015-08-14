@@ -80,3 +80,11 @@
         bang_pb_callback_fn(1);
     })
 </script>
+<script type="text/javascript" src="~/Resources/js/importToExcel.js">
+</script>
+<script type="text/javascript">
+    $("#downloadList").on("click", function () {
+        tableImportToExcel("tbl_data_list");
+    })
+</script>
+
