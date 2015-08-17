@@ -40,7 +40,15 @@ namespace Bang.DataAccess
 
         public static List<CompanyEmployeeModel> GetEmpListBy(string empAccount, string status, string serviceType, int pageIndex)
         {
-            var sqlString = "";
+            var sqlCountString = "select count(1) as myCount from shifu_reg where login_status='0' and shifu_code in (select shifu_code from shifu_category_price where category_code='01') and shifu_phone='18612920767'";
+            var sqlString = "select * from (select rownum as rn,s.shifu_phone,sf_real_name,r.login_status,shifu_level,r.shifu_reg_date from shifu_details s left join shifu_reg r on r.shifu_code=s.shifu_code) m where rn >=1 and rn <= 5";
+
+            var readerCount = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString);
+            if (readerCount.Read())
+            {
+                //ok
+                var a = "b";
+            }
 
             return new List<CompanyEmployeeModel>();
         }

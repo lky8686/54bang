@@ -1,4 +1,5 @@
 ﻿using _54Bang.Web.Company.Authentication;
+using Bang.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,7 @@ namespace _54Bang.Web.Company.Controllers
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
 
             //todo 
+            var list = CompanyManager.GetEmpListBy(empAccount, status, serviceType, pageIndex);
 
             ViewBag.RecordCount = 93;
             ViewBag.PageSize = 20;
