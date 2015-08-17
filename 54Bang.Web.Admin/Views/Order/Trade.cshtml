@@ -16,7 +16,9 @@
         &nbsp;&nbsp;&nbsp;起止时间:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" />
         &nbsp;&nbsp;&nbsp;订单号:<input type="text" id="txt_OrderNum" value="" class="form-control" style="display: inline; width: 120px;" />
         &nbsp;&nbsp;&nbsp;银行流水号:<input type="text" id="txt_BankSerialNumber" value="" class="form-control" style="display: inline; width: 120px;" />
-        &nbsp;&nbsp;&nbsp;交易状态:<select id="sel_TradeStatus" class="form-control" style="display: inline; width: 120px;">
+    </div>
+    <div class="row" style="margin-top:5px;">
+        交易状态:<select id="sel_TradeStatus" class="form-control" style="display: inline; width: 120px;">
             <option value="-1">全部</option>
             @foreach (var item in Bang.Business.BaseDataManager.TradeStatusList())
             {

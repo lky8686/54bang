@@ -6,7 +6,7 @@
 <h2 class="sub-header">平台师傅列表</h2>
 <form>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-9">
             地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
                 <option value="-1">全部</option>
                 @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
@@ -14,8 +14,6 @@
                     <option value="@item.Key">@item.Value</option>
                 }
             </select>
-        </div>
-        <div class="col-md-2">
             服务分类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;">
                 <option selected value="-1">全部</option>
                 @foreach (var item in Bang.Business.BaseDataManager.ServiceTypeList())
@@ -23,14 +21,11 @@
                     <option value="@item.Key">@item.Value</option>
                 }
             </select>
-        </div>
-        <div class="col-md-3">注册日期:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
+        注册日期:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" /></div>
     </div>
     <div class="row" style="margin-top:4px;">
-        <div class="col-md-2">
+        <div class="col-md-5">
             一级公司:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
-        </div>
-        <div class="col-md-2">
             师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
         </div>
     </div>

@@ -1,18 +1,15 @@
 ﻿@{
     ViewBag.Title = "师傅列表";
-    
-}
 
+}
 <h2 class="sub-header">师傅列表</h2>
 <form>
     <div class="row">
         <div class="col-md-2">
             机构名称:asdfasdfasdf
         </div>
-        <div class="col-md-2">
+        <div class="col-md-7">
             师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
-        </div>
-        <div class="col-md-2">
             订单状态:<select id="sel_Status" class="form-control" style="display: inline; width: 120px;">
                 <option value="-1">全部</option>
                 @foreach (var item in Bang.Business.BaseDataManager.OrderStatusList())
@@ -20,8 +17,6 @@
                     <option value="@item.Key">@item.Value</option>
                 }
             </select>
-        </div>
-        <div class="col-md-2">
             服务分类:<select id="sel_ServiceType" class="form-control" style="display: inline; width: 120px;">
                 <option selected value="-1">全部</option>
                 @foreach (var item in Bang.Business.BaseDataManager.ServiceTypeList())
@@ -52,19 +47,18 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <td>序号
+                <td>
+                    序号
                 </td>
                 <td>手机号</td>
             </tr>
         </thead>
-        <tbody id="layer_mobile_list">
-        </tbody>
+        <tbody id="layer_mobile_list"></tbody>
     </table>
     <div style="text-align: center">
         <input type="button" value="确认添加" id="layer_Confirm" />
     </div>
 </script>
-
 <script type="text/javascript" src="/Resources/js/PagePromptBox.js"></script>
 <script type="text/javascript">
     function bang_pb_callback_fn(index) {
@@ -211,4 +205,3 @@
         $("#btn_Query").click();
     });
 </script>
-
