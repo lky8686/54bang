@@ -29,20 +29,8 @@ namespace Bang.Models
         /// </summary>
         public string CreditRating { get; set; }
         /// <summary>
-        /// 技能
-        /// </summary>
-        public string Skill { get; set; }
-        /// <summary>
         /// 注册时间
         /// </summary>
-        public DateTime RegDate { get; set; }
-        /// <summary>
-        /// 在线时长
-        /// </summary>
-        public string OnlineDays { get; set; }
-        /// <summary>
-        /// 订单数量
-        /// </summary>
-        public int OrderCount { get; set; }        
+        public DateTime RegDate { get; set; }    
     }
 }

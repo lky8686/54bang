@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 namespace Bang.Models
 {
     [Serializable]
-    public class CompanyOrderModel
+    public class OrderModel
     {
-        //序号	交易流水号	业务类型	交易时间	业务状态	交易额	手续费	补贴费	交易对方	客户
+        //序号	订单号	交易时间	订单状态	服务分类	交易额	手续费	补贴费	师傅账户	用户账户
         /// <summary>
         /// 交易流水号
         /// </summary>
-        public string TransactionSerialNumber { get; set; }
+        public string OrderId { get; set; }
         /// <summary>
         /// 交易时间
         /// </summary>
-        public string TransactionDate { get; set; }
+        public string TradeDate { get; set; }
         /// <summary>
-        /// 业务类型
-        /// </summary>
-        public string ServiceType { get; set; }
-        /// <summary>
-        /// 业务状态
+        /// 订单状态
         /// </summary>
         public string Status { get; set; }
+        /// <summary>
+        /// 服务分类
+        /// </summary>
+        public string ServiceType { get; set; }
         /// <summary>
         /// 交易额
         /// </summary>
@@ -39,11 +39,11 @@ namespace Bang.Models
         /// </summary>
         public decimal Bounty { get; set; }
         /// <summary>
-        /// 交易对方
+        /// 师傅账户
         /// </summary>
-        public string Traders { get; set; }
+        public string CompanyEmpAccount { get; set; }
         /// <summary>
-        /// 客户
+        /// 用户账户
         /// </summary>
         public string Customer { get; set; }
     }
