@@ -1,4 +1,5 @@
 ﻿using _54Bang.Web.Company.Authentication;
+using Bang.Business;
 using Bang.Common;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace _54Bang.Web.Company.Controllers
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
 
             //todo 
-
+            var list = CompanyOrderManager.Query(startDate, endDate, empAccount, serviceType, status, pageIndex);
             ViewBag.RecordCount = 93;
             ViewBag.PageSize = 20;
             ViewBag.CurrentIndex = pageIndex;

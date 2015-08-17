@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AdminSysDataAccess.cs" />
     <Compile Include="CompanyDataAccess.cs" />
+    <Compile Include="CompanyOrderDataAccess.cs" />
     <Compile Include="OracleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

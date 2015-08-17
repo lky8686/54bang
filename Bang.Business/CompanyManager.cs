@@ -20,9 +20,9 @@ namespace Bang.Business
         /// </summary>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public static List<object> GetEmpListBy(string companyId)
+        public static List<CompanyEmployeeModel> GetEmpListBy(string empAccount, string status, string serviceType, int pageIndex)
         {
-            return CompanyDataAccess.GetEmpListBy(companyId);
+            return CompanyDataAccess.GetEmpListBy(empAccount, status, serviceType, pageIndex);
         }
 
         /// <summary>

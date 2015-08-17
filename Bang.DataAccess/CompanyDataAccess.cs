@@ -12,6 +12,7 @@ namespace Bang.DataAccess
     {
         public static LoginInfoModel VerifyUserLogin(string userName, string password)
         {
+            #region
             var sqlString = "select * from company_info where company_status=1 and company_login=:UserName and company_pwd=:password";//
             var userNameParam = OracleHelper.MakeParam("UserName", userName);
             var userPasswordParam = OracleHelper.MakeParam("Password", password);
@@ -34,11 +35,14 @@ namespace Bang.DataAccess
                 return null;
             }
             //return new LoginInfoModel { Name = "a", UserName = "1", Status = 1 };
+            #endregion
         }
 
-        public static List<object> GetEmpListBy(string companyId)
+        public static List<CompanyEmployeeModel> GetEmpListBy(string empAccount, string status, string serviceType, int pageIndex)
         {
-            return new List<object>();
+            var sqlString = "";
+
+            return new List<CompanyEmployeeModel>();
         }
 
         public static List<object> GetCustomerList(string companyId)

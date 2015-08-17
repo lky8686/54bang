@@ -42,6 +42,7 @@
     <Compile Include="AdminSysManager.cs" />
     <Compile Include="BaseDataManager.cs" />
     <Compile Include="CompanyManager.cs" />
+    <Compile Include="CompanyOrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
