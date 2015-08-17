@@ -37,15 +37,15 @@ namespace _54Bang.Web.Company.Authentication
                 return HttpContext.Current.Items[CurrentUserContextCacheKey] as UserContext;
             }
         }
-        public int Area { get; private set; }
+        public string Area { get; private set; }
 
-        public int UserId { get; private set; }
+        public string UserId { get; private set; }
 
         public string Name { get; private set; }
 
         public string UserName { get; private set; }
 
-        public int CompanyId { get; private set; }
+        public string CompanyId { get; private set; }
 
         public static LoginInfoModel GetBy(string cookieValue)
         {

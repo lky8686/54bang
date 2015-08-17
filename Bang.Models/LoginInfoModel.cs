@@ -11,10 +11,11 @@ namespace Bang.Models
     public class LoginInfoModel
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int CompanyId { get; set; }
+        public string CompanyId { get; set; }
+        public string CompanyName { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string UserName { get; set; }

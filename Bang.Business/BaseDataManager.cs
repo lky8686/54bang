@@ -8,12 +8,15 @@ namespace Bang.Business
 {
     public class BaseDataManager
     {
-        public static Dictionary<int, string> GetCityList()
+        public static Dictionary<string, string> GetCityList()
         {
-            var result = new Dictionary<int, string>();
-            result.Add(1, "北京");
-            result.Add(2, "上海");
-            result.Add(3, "东莞");
+            var result = new Dictionary<string, string>();
+            result.Add("131000", "廊坊");
+            result.Add("130100", "石家庄");
+            result.Add("370200", "青岛市");
+            result.Add("441900", "东莞市");
+            result.Add("340300", "蚌埠市");
+            result.Add("110000", "北京市");
 
             return result;
         }
