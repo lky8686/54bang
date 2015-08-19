@@ -60,14 +60,15 @@ namespace _54Bang.Web.Company.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult EmpOrder()
+        public ActionResult EmpOrderStat()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult EmpOrderQuery(string year, string month, string empAccount)
+        public ActionResult EmpOrderStatQuery(string year, string month, string empAccount)
         {
-            return View();
+            var list = CompanyOrderManager.EmpOrderStatQuery(UserContext.Current.CompanyId, year, month, empAccount);
+            return View(list);
         }
 
         [HttpPost]

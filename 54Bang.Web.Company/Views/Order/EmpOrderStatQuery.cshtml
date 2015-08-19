@@ -1,5 +1,7 @@
-﻿@{
+﻿@model List<Bang.Models.CompanyEmpOrderStatModel>
+@{
     Layout = null;
+    var index = 1;
 }
 
 <div class="table-responsive">
@@ -14,13 +16,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>序号</td>
-                <td>师傅账户</td>
-                <td>师傅姓名</td>
-                <td>订单数量</td>
-                <td>交易金额</td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@item.EmpAccount</td>
+                    <td>@item.EmpName</td>
+                    <td>@item.OrderCount</td>
+                    <td>@item.OrderTotal</td>
+                </tr>
+                index++;
+            }
             <tr>
                 <td>序号</td>
                 <td>师傅账户</td>

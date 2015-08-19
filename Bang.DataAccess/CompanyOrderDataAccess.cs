@@ -151,5 +151,37 @@ namespace Bang.DataAccess
             }
             return result;
         }
+
+        /// <summary>
+        /// 师傅交易统计列表
+        /// </summary>
+        /// <param name="companyCode"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static List<CompanyEmpOrderStatModel> EmpOrderStatQuery(string companyCode, string year, string month, string empAccount)
+        {
+            var result = new List<CompanyEmpOrderStatModel>();
+            var sqlString = "select other_number,shifu_money,balance_source,b.shifu_code,create_date from shifu_balance_log b left join shifu_reg s on s.shifu_code=b.shifu_code where 1=1 ";
+
+            sqlString += "create_date between and";
+            sqlString += "create_date between and";
+
+            return result;
+
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
+            while (reader.Read())
+            {
+                var emp = new CompanyEmpOrderStatModel
+                {
+                    EmpName = reader["other_number"].ToString(),
+                    EmpAccount = reader["shifu_money"].ToString(),
+                    OrderCount = int.Parse(reader["create_date"].ToString()),
+                    OrderTotal = decimal.Parse(reader["shifu_money"].ToString())
+                };
+                result.Add(emp);
+            }
+            return result;
+        }
     }
 }

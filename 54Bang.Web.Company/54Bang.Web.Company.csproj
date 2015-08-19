@@ -245,10 +245,10 @@
     <Content Include="Views\Order\SettlementQuery.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Order\EmpOrder.cshtml" />
+    <Content Include="Views\Order\EmpOrderStat.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Order\EmpOrderQuery.cshtml" />
+    <Content Include="Views\Order\EmpOrderStatQuery.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

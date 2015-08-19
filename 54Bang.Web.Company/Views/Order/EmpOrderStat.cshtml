@@ -37,7 +37,7 @@
             $("#btn_Query").attr("disabled", true);
             $.ajax({
                 type: 'post',
-                url: "/Order/EmpOrderQuery",
+                url: "/Order/EmpOrderStatQuery",
                 data: postData,
                 success: function (data) {
                     $("#btn_Query").removeAttr("disabled");

@@ -19,5 +19,10 @@ namespace Bang.Business
         {
             return CompanyOrderDataAccess.SettlementQuery(companyCode, year, month);
         }
+
+        public static List<CompanyEmpOrderStatModel> EmpOrderStatQuery(string companyCode, string year, string month, string empAccount)
+        {
+            return CompanyOrderDataAccess.EmpOrderStatQuery(companyCode, year, month, empAccount);
+        }
     }
 }
