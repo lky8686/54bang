@@ -103,7 +103,7 @@ namespace Bang.DataAccess
 
             paramList.CopyTo(paramArray, 0);
             countParamList.CopyTo(countParamArray, 0);
-            //recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString, countParamArray));
+            recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, countSqlString, countParamArray));
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, paramArray);
             while (reader.Read())
             {
