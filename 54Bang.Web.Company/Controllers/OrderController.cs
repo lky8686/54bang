@@ -27,13 +27,14 @@ namespace _54Bang.Web.Company.Controllers
         public ActionResult Query(string startDate, string endDate, string empAccount, string serviceType, string status, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
             //todo 
-            var list = CompanyOrderManager.Query(startDate, endDate, empAccount, serviceType, status, pageIndex);
-            ViewBag.RecordCount = 93;
+            var list = CompanyOrderManager.Query(UserContext.Current.CompanyId, startDate, endDate, empAccount, serviceType, status, pageIndex, pageSize, out recordCount);
+            ViewBag.RecordCount = recordCount;
             ViewBag.PageSize = 20;
             ViewBag.CurrentIndex = pageIndex;
-            return View();
+            return View(list);
         }
 
         /// <summary>

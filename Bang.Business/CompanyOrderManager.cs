@@ -10,9 +10,9 @@ namespace Bang.Business
 {
     public class CompanyOrderManager
     {
-        public static List<OrderModel> Query(string startDate, string endDate, string empAccount, string serviceType, string status, int pageIndex)
+        public static List<OrderModel> Query(string companyCode, string startDate, string endDate, string empAccount, string serviceType, string status, int pageIndex, int pageSize, out int recordCount)
         {
-            return CompanyOrderDataAccess.Query(startDate, endDate, empAccount, serviceType, status, pageIndex);
+            return CompanyOrderDataAccess.Query(companyCode, startDate, endDate, empAccount, serviceType, status, pageIndex, pageSize, out recordCount);
         }
     }
 }

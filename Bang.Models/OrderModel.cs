@@ -22,6 +22,8 @@ namespace Bang.Models
         /// 订单状态
         /// </summary>
         public string Status { get; set; }
+        public string ReleaseStatus { get; set; }
+        public string MoneyStatus { get; set; }
         /// <summary>
         /// 服务分类
         /// </summary>
