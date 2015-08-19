@@ -125,13 +125,24 @@ namespace Bang.DataAccess
             return result;
         }
 
+        /// <summary>
+        /// 结算管理
+        /// </summary>
+        /// <param name="companyCode"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public static List<CompanySettlementModel> SettlementQuery(string companyCode, string year, string month)
         {
+            #region
             var result = new List<CompanySettlementModel>();
-            var sqlString = "select other_number,shifu_money,balance_source,b.shifu_code,create_date from shifu_balance_log b left join shifu_reg s on s.shifu_code=b.shifu_code where 1=1 ";
+            var sqlString = "select other_number,shifu_money,balance_source,b.shifu_code,create_date from shifu_balance_log b,shifu_reg s where s.shifu_code=b.shifu_code and s.company_code='" + companyCode + "'";
+            //countSqlString="select count(1) as myCount, sum(shifu_money) as myMoney from shifu_balance_log b,shifu_reg s where s.shifu_code=b.shifu_code and s.company_code='' and create_date between and "
+            // to_date('2015-06-10','yyyy-mm-dd')
+            var startDate = new DateTime(int.Parse(year), int.Parse(month), 1);
+            var endDate = startDate.AddMonths(1);
 
-            sqlString += "create_date between and";
-            sqlString += "create_date between and";
+            sqlString += " and create_date between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') ";
 
             return result;
 
@@ -143,13 +154,13 @@ namespace Bang.DataAccess
                     OrderId = reader["other_number"].ToString(),
                     EmpAccount = reader["shifu_money"].ToString(),
                     OrderDate = DateTime.Parse(reader["create_date"].ToString()),
-
                     ServiceType = reader["shifu_code"].ToString(),
                     TradeTotal = decimal.Parse(reader["shifu_money"].ToString())
                 };
                 result.Add(emp);
             }
             return result;
+            #endregion
         }
 
         /// <summary>
@@ -161,11 +172,26 @@ namespace Bang.DataAccess
         /// <returns></returns>
         public static List<CompanyEmpOrderStatModel> EmpOrderStatQuery(string companyCode, string year, string month, string empAccount)
         {
+            #region
             var result = new List<CompanyEmpOrderStatModel>();
-            var sqlString = "select other_number,shifu_money,balance_source,b.shifu_code,create_date from shifu_balance_log b left join shifu_reg s on s.shifu_code=b.shifu_code where 1=1 ";
+            var sqlString = "select m.*,d.sf_real_name from ( select r.shifu_code,count(o.order_number) as myCount,sum(o.pay_total) as myMoney from order_rob_shifu r ,order_info o where o.order_number=r.order_number and r.rob_status in ('80','90') and shifu_code in  (select shifu_code from shifu_reg where company_code='" + companyCode + "' {empAccountCondition} ) {dateCondition} group by r.shifu_code  ) m left join shifu_details d on d.shifu_code=m.shifu_code";
+            if (string.IsNullOrEmpty(empAccount) == false)
+            {//and shifu_phone=''                
+                sqlString = sqlString.Replace("{empAccountCondition}", " and shifu_phone='" + empAccount + "'");
+            }
+            else
+            {
+                sqlString = sqlString.Replace("{empAccountCondition}", "");
+            }
+            // and order_rob_time between '' and '' 
+            // and order_rob_time>='' and order_rob_time<''
+            // to_date('2015-06-10','yyyy-mm-dd')
+            var startDate = new DateTime(int.Parse(year), int.Parse(month), 1);
+            var endDate = startDate.AddMonths(1);
 
-            sqlString += "create_date between and";
-            sqlString += "create_date between and";
+            sqlString = sqlString.Replace("{dateCondition}", "and order_rob_time between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd')");
+
+            //new DateTime(
 
             return result;
 
@@ -174,14 +200,15 @@ namespace Bang.DataAccess
             {
                 var emp = new CompanyEmpOrderStatModel
                 {
-                    EmpName = reader["other_number"].ToString(),
-                    EmpAccount = reader["shifu_money"].ToString(),
-                    OrderCount = int.Parse(reader["create_date"].ToString()),
-                    OrderTotal = decimal.Parse(reader["shifu_money"].ToString())
+                    EmpName = reader["sf_real_name"].ToString(),
+                    EmpAccount = reader["shifu_code"].ToString(),
+                    OrderCount = int.Parse(reader["myCount"].ToString()),
+                    OrderTotal = decimal.Parse(reader["myMoney"].ToString())
                 };
                 result.Add(emp);
             }
             return result;
+            #endregion
         }
     }
 }
