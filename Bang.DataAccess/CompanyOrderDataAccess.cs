@@ -124,5 +124,32 @@ namespace Bang.DataAccess
             #endregion
             return result;
         }
+
+        public static List<CompanySettlementModel> SettlementQuery(string companyCode, string year, string month)
+        {
+            var result = new List<CompanySettlementModel>();
+            var sqlString = "select other_number,shifu_money,balance_source,b.shifu_code,create_date from shifu_balance_log b left join shifu_reg s on s.shifu_code=b.shifu_code where 1=1 ";
+
+            sqlString += "create_date between and";
+            sqlString += "create_date between and";
+
+            return result;
+
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
+            while (reader.Read())
+            {
+                var emp = new CompanySettlementModel
+                {
+                    OrderId = reader["other_number"].ToString(),
+                    EmpAccount = reader["shifu_money"].ToString(),
+                    OrderDate = DateTime.Parse(reader["create_date"].ToString()),
+
+                    ServiceType = reader["shifu_code"].ToString(),
+                    TradeTotal = decimal.Parse(reader["shifu_money"].ToString())
+                };
+                result.Add(emp);
+            }
+            return result;
+        }
     }
 }

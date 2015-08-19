@@ -14,5 +14,10 @@ namespace Bang.Business
         {
             return CompanyOrderDataAccess.Query(companyCode, startDate, endDate, empAccount, serviceType, status, pageIndex, pageSize, out recordCount);
         }
+
+        public static List<CompanySettlementModel> SettlementQuery(string companyCode, string year, string month)
+        {
+            return CompanyOrderDataAccess.SettlementQuery(companyCode, year, month);
+        }
     }
 }

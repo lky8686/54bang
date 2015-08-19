@@ -50,7 +50,9 @@ namespace _54Bang.Web.Company.Controllers
         [HttpPost]
         public ActionResult SettlementQuery(string year, string month)
         {
-            return View();
+            var list = CompanyOrderManager.SettlementQuery(UserContext.Current.CompanyId, year, month);
+
+            return View(list);
         }
 
         /// <summary>

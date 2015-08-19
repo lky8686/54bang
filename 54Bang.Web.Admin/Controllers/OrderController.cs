@@ -76,5 +76,17 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult CompanySettlement()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CompanySettlementQuery(string city, string companyCode, string year, string month)
+        {
+            return View();
+        }
+
     }
 }
