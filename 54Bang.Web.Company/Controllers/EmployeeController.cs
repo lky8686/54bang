@@ -34,7 +34,7 @@ namespace _54Bang.Web.Company.Controllers
         }
 
         /// <summary>
-        /// 解除师傅
+        /// 解除师傅 login_status 0：正常，1：冻结
         /// </summary>
         /// <param name="empIds"></param>
         /// <returns></returns>
@@ -51,15 +51,17 @@ namespace _54Bang.Web.Company.Controllers
         public ActionResult Query(string empAccount, string status, string serviceType, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
             //todo 
-            var list = CompanyManager.GetEmpListBy(empAccount, status, serviceType, pageIndex);
+            var list = CompanyManager.GetEmpListBy(UserContext.Current.CompanyId, empAccount, status, serviceType, pageIndex, pageSize, out recordCount);
 
-            ViewBag.RecordCount = 93;
+            //ViewBag.List = list;
+            ViewBag.RecordCount = recordCount;
             ViewBag.PageSize = 20;
             ViewBag.CurrentIndex = pageIndex;
 
-            return View();
+            return View(list);
         }
     }
 }

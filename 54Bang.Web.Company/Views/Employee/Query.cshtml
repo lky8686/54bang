@@ -1,5 +1,7 @@
-﻿@{
+﻿@model List<Bang.Models.CompanyEmployeeModel>
+@{
     Layout = null;
+    var index = 1;
 }
 
 <div class="table-responsive">
@@ -15,6 +17,18 @@
             </tr>
         </thead>
         <tbody>
+            @foreach (var item in Model)
+            { 
+                <tr>
+                    <th>@index</th>
+                    <td>@item.AccountId</td>
+                    <td>@item.Name</td>
+                    <td>@item.Status</td>
+                    <td>@item.CreditRating</td>
+                    <td>@item.RegDate</td>
+                </tr>
+                index++;
+            }
             <tr>
                 <th>序号</th>
                 <td>师傅账户</td>

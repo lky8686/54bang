@@ -9,8 +9,7 @@ namespace Bang.Models
     [Serializable]
     public class CompanyEmployeeModel
     {
-        //师傅账户	姓名	账户状态	信用等级	技能	注册时间	在线时长	订单数量	师傅详情
-        public string Id { get; set; }
+        //师傅账户	姓名	账户状态	信用等级	技能	注册时间	在线时长	订单数量	师傅详情        
         public string CompanyId { get; set; }
         /// <summary>
         /// 师傅账户

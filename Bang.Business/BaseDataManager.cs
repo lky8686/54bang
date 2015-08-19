@@ -21,20 +21,20 @@ namespace Bang.Business
             return result;
         }
 
-        public static Dictionary<int, string> ServiceTypeList()
+        public static Dictionary<string, string> ServiceTypeList()
         {
             #region
-            var result = new Dictionary<int, string>();
-            result.Add(1, "管道维修");
-            result.Add(2, "上门洗车");
-            result.Add(3, "装修改造");
-            result.Add(4, "家具");
-            result.Add(5, "家用电器");
-            result.Add(6, "手机电脑");
-            result.Add(7, "跑腿代办");
-            result.Add(8, "开锁换锁");
-            result.Add(9, "保洁家政");
-            result.Add(10, "其他");
+            var result = new Dictionary<string, string>();
+            result.Add("01", "管道维修");
+            result.Add("02", "上门洗车");
+            result.Add("03", "装修改造");
+            result.Add("04", "家具");
+            result.Add("05", "家用电器");
+            result.Add("06", "手机电脑");
+            result.Add("07", "跑腿代办");
+            result.Add("08", "开锁换锁");
+            result.Add("09", "保洁家政");
+            result.Add("99", "其他");
             return result;
             #endregion
         }
