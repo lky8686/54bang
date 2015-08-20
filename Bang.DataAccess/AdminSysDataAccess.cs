@@ -94,5 +94,64 @@ namespace Bang.DataAccess
             var sqlString = "update shifu_reg set login_status='" + (status == "1" ? "1" : "0") + "' where shifu_phone in('" + empAccount + "')";
             return OracleHelper.ExecuteNonQuery(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString) > 0 ? true : false;
         }
+
+        public static List<CustomerModel> GetCustomerList(string city, string startDate, string endDate, string mobile, int pageIndex, int pageSize, out int recordCount)
+        {
+            #region
+            recordCount = 0;
+            pageIndex = pageIndex - 1;
+            recordCount = 0;
+            var startIndex = pageIndex * pageSize + 1;
+            var endIndex = startIndex + pageSize - 1;
+
+            var result = new List<CustomerModel>();
+
+            var sqlString = "select rownum as rn, c.phone_no,i.user_name,c.create_date from client_reg c left join client_info i on i.client_code=c.client_code where 1=1 ";
+            var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
+            var sqlCountString = "select count(*) rCount from client_reg c left join client_info i on i.client_code=c.client_code where 1=1 ";
+            //c.city_code='' and c.phone_no='' and c.create_date between to_date('','yyyy-mm-dd') and to_date('','yyyy-mm-dd')
+            if (string.IsNullOrEmpty(city) == false)
+            {
+                sqlString += " and c.city_code='" + city + "'";
+                sqlCountString += " and c.city_code='" + city + "'";
+            }
+
+            if (string.IsNullOrEmpty(startDate) == false)
+            {
+                sqlString += "  and c.create_date >= to_date('" + startDate + "','yyyy-mm-dd')";
+                sqlCountString += "  and c.create_date >= to_date('" + startDate + "','yyyy-mm-dd')";
+            }
+            if (string.IsNullOrEmpty(endDate) == false)
+            {
+                sqlString += "  and c.create_date <= to_date('" + endDate + "','yyyy-mm-dd')";
+                sqlCountString += "  and c.create_date <= to_date('" + endDate + "','yyyy-mm-dd')";
+            }
+
+            if (string.IsNullOrEmpty(mobile) == false)
+            {
+                sqlString += "  and c.phone_no='" + mobile + "'";
+                sqlCountString += "  and c.phone_no='" + mobile + "'";
+            }
+            sqlPageString = sqlPageString.Replace("{table}", sqlString);
+            return result;
+
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
+            var count = OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString);
+            recordCount = int.Parse(count.ToString());
+
+            while (reader.Read())
+            {
+                var emp = new CustomerModel
+                {
+                    AccountId = reader["phone_no"].ToString(),
+                    NickName = reader["user_name"].ToString(),
+                    RegDate = DateTime.Parse(reader["create_date"].ToString())
+                };
+                result.Add(emp);
+            }
+
+            return result;
+            #endregion
+        }
     }
 }

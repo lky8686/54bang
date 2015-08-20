@@ -1,5 +1,7 @@
-﻿@{
+﻿@model List<Bang.Models.CustomerModel>
+@{
     Layout = null;
+    var index = 1;
 }
 
 
@@ -14,24 +16,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>序号</td>
-                <td>用户账户</td>
-                <td>昵称</td>
-                <td>注册日期</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>用户账户</td>
-                <td>昵称</td>
-                <td>注册日期</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>用户账户</td>
-                <td>昵称</td>
-                <td>注册日期</td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@item.AccountId</td>
+                    <td>@Html.Raw(item.NickName)</td>
+                    <td>@item.RegDate</td>
+                </tr>
+            }
     </table>
 </div>
 @Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

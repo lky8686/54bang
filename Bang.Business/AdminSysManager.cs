@@ -30,5 +30,10 @@ namespace Bang.Business
         {
             return AdminSysDataAccess.SetCompanyEmpAccountStatus(empAccount, status);
         }
+
+        public static List<CustomerModel> GetCustomerList(string city, string startDate, string endDate, string mobile, int pageIndex, int pageSize, out int recordCount)
+        {
+            return AdminSysDataAccess.GetCustomerList(city, startDate, endDate, mobile, pageIndex, pageSize, out recordCount);
+        }
     }
 }
