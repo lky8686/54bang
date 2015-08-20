@@ -99,7 +99,7 @@ namespace Bang.DataAccess
                 countParamList.Add(new OracleParameter { ParameterName = "endDate", Value = endDate });
             }
 
-            return result;
+            //return result;
 
             paramList.CopyTo(paramArray, 0);
             countParamList.CopyTo(countParamArray, 0);
@@ -144,7 +144,7 @@ namespace Bang.DataAccess
 
             sqlString += " and create_date between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') ";
 
-            return result;
+            //return result;
 
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
             while (reader.Read())
@@ -193,7 +193,7 @@ namespace Bang.DataAccess
 
             //new DateTime(
 
-            return result;
+            //return result;
 
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
             while (reader.Read())

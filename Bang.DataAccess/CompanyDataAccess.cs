@@ -13,27 +13,27 @@ namespace Bang.DataAccess
         public static LoginInfoModel VerifyUserLogin(string userName, string password)
         {
             #region
-            //var sqlString = "select * from company_info where company_status=1 and company_login=:UserName and company_pwd=:password";//
-            //var userNameParam = OracleHelper.MakeParam("UserName", userName);
-            //var userPasswordParam = OracleHelper.MakeParam("Password", password);
-            //var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, new OracleParameter[]{
-            //userNameParam, userPasswordParam
-            //});
-            ////var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, null);
-            //if (reader.Read())
-            //{
-            //    return new LoginInfoModel
-            //    {
-            //        CompanyId = reader.GetString(reader.GetOrdinal("Company_Code")),
-            //        CompanyName = reader.GetString(reader.GetOrdinal("Company_Name")),
-            //        UserName = reader.GetString(reader.GetOrdinal("company_login")),
-            //        Status = 1
-            //    };
-            //}
-            //else
-            //{
-            //    return null;
-            //}
+            var sqlString = "select * from company_info where company_status=1 and company_login=:UserName and company_pwd=:password";//
+            var userNameParam = OracleHelper.MakeParam("UserName", userName);
+            var userPasswordParam = OracleHelper.MakeParam("Password", password);
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, new OracleParameter[]{
+            userNameParam, userPasswordParam
+            });
+            //var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, null);
+            if (reader.Read())
+            {
+                return new LoginInfoModel
+                {
+                    CompanyId = reader.GetString(reader.GetOrdinal("Company_Code")),
+                    CompanyName = reader.GetString(reader.GetOrdinal("Company_Name")),
+                    UserName = reader.GetString(reader.GetOrdinal("company_login")),
+                    Status = 1
+                };
+            }
+            else
+            {
+                return null;
+            }
             return new LoginInfoModel { Name = "a", UserName = "1", Status = 1, CompanyId = "11-22-33" };
             #endregion
         }
@@ -92,7 +92,7 @@ namespace Bang.DataAccess
             }
 
             sqlString = "select * from (" + sqlString + ")  m where rn >=" + startIndex + " and rn <= " + endIndex;
-            return result;
+            //return result;
 
             paramList.CopyTo(paramArray, 0);
             paramListCount.CopyTo(paramArrayCount, 0);
@@ -112,7 +112,7 @@ namespace Bang.DataAccess
                 result.Add(emp);
             }
             #endregion
-
+            return result;
         }
 
         public static List<object> GetCustomerList(string companyId)
