@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bang.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,16 +18,24 @@ namespace _54Bang.Web.Admin.Controllers
         }
 
         [HttpPost]
+        public ActionResult SetCompanyEmpStatus(string empAccounts, string status)
+        {
+            return Json(new { success = AdminSysManager.SetCompanyEmpAccountStatus(empAccounts, status), msg = empAccounts });
+        }
+
+        [HttpPost]
         public ActionResult Query(string city, string serviceType, string startDate, string endDate, string company, string empAccount, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
             //todo 
+            var list = AdminSysManager.GetCompanyEmpList(city, serviceType, startDate, endDate, company, empAccount, pageIndex, pageSize, out recordCount);
 
-            ViewBag.RecordCount = 93;
+            ViewBag.RecordCount = recordCount;
             ViewBag.PageSize = 20;
             ViewBag.CurrentIndex = pageIndex;
-            return View();
+            return View(list);
         }
 
         /// <summary>
@@ -38,7 +47,7 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult RecommendQuery(string city,string year,string month,string company,string empAccount,int pageIndex)
+        public ActionResult RecommendQuery(string city, string year, string month, string company, string empAccount, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
 
