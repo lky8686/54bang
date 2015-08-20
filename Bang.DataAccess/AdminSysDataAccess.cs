@@ -33,7 +33,7 @@ namespace Bang.DataAccess
             var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
             var sqlCountString = "select count(*) rcount from shifu_reg r,shifu_details d where r.shifu_code=d.shifu_code ";
             //  and r.company_code='' and r.shifu_phone='' and r.city_code='' and  r.shifu_code in (select shifu_code from shifu_category_price where category_code='')
-            if (string.IsNullOrEmpty(city) == false)
+            if (city != "-1")
             {
                 sqlString += " and r.city_code='" + city + "' ";
                 sqlCountString += " and r.city_code='" + city + "' ";
@@ -110,7 +110,7 @@ namespace Bang.DataAccess
             var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
             var sqlCountString = "select count(*) rCount from client_reg c left join client_info i on i.client_code=c.client_code where 1=1 ";
             //c.city_code='' and c.phone_no='' and c.create_date between to_date('','yyyy-mm-dd') and to_date('','yyyy-mm-dd')
-            if (string.IsNullOrEmpty(city) == false)
+            if (city != "-1")
             {
                 sqlString += " and c.city_code='" + city + "'";
                 sqlCountString += " and c.city_code='" + city + "'";
@@ -146,6 +146,107 @@ namespace Bang.DataAccess
                     AccountId = reader["phone_no"].ToString(),
                     NickName = reader["user_name"].ToString(),
                     RegDate = DateTime.Parse(reader["create_date"].ToString())
+                };
+                result.Add(emp);
+            }
+
+            return result;
+            #endregion
+        }
+
+        public static List<OrderModel> OrderQuery(string city, string startDate, string endDate, string empAccount, string orderStatus, string serviceType, int pageIndex, int pageSize, out int recordCount)
+        {
+            #region
+            recordCount = 0;
+            pageIndex = pageIndex - 1;
+            recordCount = 0;
+            var startIndex = pageIndex * pageSize + 1;
+            var endIndex = startIndex + pageSize - 1;
+
+            var result = new List<OrderModel>();
+            var sqlString = "select rownum as rn, o.order_number,o.order_time,o.order_status,c.category_value,o.pay_total,r.shifu_phone,o.c_phone from order_info o , order_rob_shifu r , dic_category c where  c.category_code=o.category_code and r.order_number=o.order_number and r.rob_status in ('80','90') ";
+            var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
+            var sqlCountString = "select count(*) rCount from order_info o , order_rob_shifu r , dic_category c where  c.category_code=o.category_code and r.order_number=o.order_number and r.rob_status in ('80','90') ";
+            // 
+            //and r.shifu_phone='18611102971'
+            //and o.category_code=''
+            //and o.city_code=''
+            //and o.order_time between and 
+
+            if (city != "-1")
+            {
+                sqlString += " and o.city_code='" + city + "' ";
+                sqlCountString += " and o.city_code='" + city + "' ";
+            }
+
+            if (string.IsNullOrEmpty(startDate) == false)
+            {
+                sqlString += " and o.order_time>= to_date('" + startDate + "','yyyy-mm-dd')";
+                sqlCountString += " and o.order_time>= to_date('" + startDate + "','yyyy-mm-dd')";
+            }
+            if (string.IsNullOrEmpty(endDate) == false)
+            {
+                sqlString += " and o.order_time<= to_date('" + endDate + "','yyyy-mm-dd')";
+                sqlCountString += " and o.order_time<= to_date('" + endDate + "','yyyy-mm-dd')";
+            }
+            if (string.IsNullOrEmpty(empAccount) == false)
+            {
+                sqlString += " and r.shifu_phone='" + empAccount + "' ";
+                sqlCountString += " and r.shifu_phone='" + empAccount + "' ";
+            }
+            if (orderStatus != "-1")
+            {//order_status release_status money_status
+                /*
+                   order_status
+                       15：等待支付
+                       20，25：服务中
+                       90:服务已完成
+                   release_status
+                       5:已取消
+                   money_status
+                       -10,-15:待退款
+                */
+                if (orderStatus == "1" || orderStatus == "2" || orderStatus == "3")
+                {
+                    sqlString += " and o.order_status='" + orderStatus + "'";
+                    sqlCountString += " and o.order_status='" + orderStatus + "'";
+                }
+                else if (orderStatus == "4")
+                {
+                    sqlString += " and o.release_status='" + orderStatus + "'";
+                    sqlCountString += " and o.release_status='" + orderStatus + "'";
+                }
+                else
+                {//5
+                    sqlString += " and o.money_status='" + orderStatus + "'";
+                    sqlCountString += " and o.money_status='" + orderStatus + "'";
+                }
+
+            }
+            if (serviceType != "-1")
+            {
+                sqlString += " and o.category_code='" + serviceType + "' ";
+                sqlCountString += " and o.category_code='" + serviceType + "' ";
+            }
+
+            sqlPageString = sqlPageString.Replace("{table}", sqlString);
+            return result;
+
+            recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString));
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
+            while (reader.Read())
+            {
+                var emp = new OrderModel
+                {
+                    OrderId = reader["order_number"].ToString(),
+                    TradeDate = reader["order_time"].ToString(),
+                    Status = reader["order_status"].ToString(),
+                    ReleaseStatus = reader["release_status"].ToString(),
+                    MoneyStatus = reader["money_status"].ToString(),
+                    ServiceType = reader["category_value"].ToString(),
+                    Total = decimal.Parse(reader["pay_total"].ToString()),
+                    CompanyEmpAccount = reader["shifu_phone"].ToString(),
+                    Customer = reader["c_phone"].ToString()
                 };
                 result.Add(emp);
             }

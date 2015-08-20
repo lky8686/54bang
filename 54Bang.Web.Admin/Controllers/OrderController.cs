@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bang.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,13 +24,15 @@ namespace _54Bang.Web.Admin.Controllers
         public ActionResult Query(string city, string startDate, string endDate, string empAccount, string orderStatus, string serviceType, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
             //todo 
+            var list = AdminSysManager.OrderQuery(city, startDate, endDate, empAccount, orderStatus, serviceType, pageIndex, pageSize, out recordCount);
 
-            ViewBag.RecordCount = 93;
-            ViewBag.PageSize = 20;
+            ViewBag.RecordCount = recordCount;
+            ViewBag.PageSize = pageSize;
             ViewBag.CurrentIndex = pageIndex;
-            return View();
+            return View(list);
         }
 
         /// <summary>

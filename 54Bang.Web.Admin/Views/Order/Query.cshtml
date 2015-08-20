@@ -1,5 +1,7 @@
-﻿@{
+﻿@model List<Bang.Models.OrderModel>
+@{
     Layout = null;
+    var index = 1;
 }
 <div class="table-responsive">
     <table class="table table-striped">
@@ -18,42 +20,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>序号</td>
-                <td>订单号</td>
-                <td>交易时间</td>
-                <td>订单状态</td>
-                <td>服务分类</td>
-                <td>交易额</td>
-                <td>手续费</td>
-                <td>补贴费</td>
-                <td>师傅账户</td>
-                <td>用户账户</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>订单号</td>
-                <td>交易时间</td>
-                <td>订单状态</td>
-                <td>服务分类</td>
-                <td>交易额</td>
-                <td>手续费</td>
-                <td>补贴费</td>
-                <td>师傅账户</td>
-                <td>用户账户</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>订单号</td>
-                <td>交易时间</td>
-                <td>订单状态</td>
-                <td>服务分类</td>
-                <td>交易额</td>
-                <td>手续费</td>
-                <td>补贴费</td>
-                <td>师傅账户</td>
-                <td>用户账户</td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@item.OrderId</td>
+                    <td>@item.TradeDate</td>
+                    <td>@item.Status  --- @item.ReleaseStatus --- @item.MoneyStatus</td>
+                    <td>@item.ServiceType</td>
+                    <td>@item.Total</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>@item.CompanyEmpAccount</td>
+                    <td>@item.Customer</td>
+                </tr>
+                index++;
+            }
     </table>
 </div>
 @Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

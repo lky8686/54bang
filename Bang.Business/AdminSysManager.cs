@@ -35,5 +35,10 @@ namespace Bang.Business
         {
             return AdminSysDataAccess.GetCustomerList(city, startDate, endDate, mobile, pageIndex, pageSize, out recordCount);
         }
+
+        public static List<OrderModel> OrderQuery(string city, string startDate, string endDate, string empAccount, string orderStatus, string serviceType, int pageIndex, int pageSize, out int recordCount)
+        {
+            return AdminSysDataAccess.OrderQuery(city, startDate, endDate, empAccount, orderStatus, serviceType, pageIndex, pageSize, out recordCount);
+        }
     }
 }
