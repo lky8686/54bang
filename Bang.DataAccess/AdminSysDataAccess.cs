@@ -91,7 +91,7 @@ namespace Bang.DataAccess
 
         public static bool SetCompanyEmpAccountStatus(string empAccount, string status)
         {
-            var sqlString = "update shifu_reg where login_status='" + (status == "1" ? "1" : "0") + "' where shifu_phone in('" + empAccount + "')";
+            var sqlString = "update shifu_reg set login_status='" + (status == "1" ? "1" : "0") + "' where shifu_phone in('" + empAccount + "')";
             return OracleHelper.ExecuteNonQuery(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString) > 0 ? true : false;
         }
     }
