@@ -1,6 +1,7 @@
 ﻿using Bang.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.OracleClient;
 
 namespace Bang.DataAccess
 {
@@ -9,6 +10,28 @@ namespace Bang.DataAccess
         public static LoginInfoModel VerifyUserLogin(string userName, string password)
         {
             #region
+            #region
+            var sqlString = "select * from CSR where CSRYGID=:UserName and CSRPWD=:password and islock='1'";//
+            var userNameParam = OracleHelper.MakeParam("UserName", userName);
+            var userPasswordParam = OracleHelper.MakeParam("Password", password);
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, new OracleParameter[]{
+            userNameParam, userPasswordParam
+            });
+            //var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, null);
+            if (reader.Read())
+            {
+                return new LoginInfoModel
+                {
+                    Name = reader.GetString(reader.GetOrdinal("CSRNAME")),
+                    UserName = reader.GetString(reader.GetOrdinal("CSRYGID")),
+                    Status = Int16.Parse(reader["CSRSTATUS"].ToString())
+                };
+            }
+            else
+            {
+                return null;
+            }
+            #endregion
             return new LoginInfoModel
             {
                 UserName = userName,
