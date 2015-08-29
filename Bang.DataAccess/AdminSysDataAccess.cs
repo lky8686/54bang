@@ -460,5 +460,102 @@ namespace Bang.DataAccess
             return result;
             #endregion
         }
+
+        public static List<SettlementModel> SettlementQuery(string city, string company, string companyEmp, string settlementNum, string startDate, string endDate, string settlementStatus, int pageIndex, int pageSize, out int recordCount, out decimal total, out int amount)
+        {
+            #region
+            recordCount = 0;
+            pageIndex = pageIndex - 1;
+            recordCount = 0;
+            total = 0;
+            amount = 0;
+            var startIndex = pageIndex * pageSize + 1;
+            var endIndex = startIndex + pageSize - 1;
+
+            var result = new List<SettlementModel>();
+            var sqlString = "select rownum as rn, b.mycode, b.shifu_code,d.shifu_phone,b.create_date,CASH_OBJECT,b.bank_number,b.shifu_money,b.balance_status from shifu_balance_log b left join shifu_details d on d.shifu_code=b.shifu_code where b.balance_source='-1' ";
+            var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
+            var sqlCountString = "select count(*) from shifu_balance_log b left join shifu_details d on d.shifu_code=b.shifu_code where b.balance_source='-1'";
+            var sqlTotalString = "select sum(b.shifu_money) as total,count(*) as amount  from shifu_balance_log b left join shifu_details d on d.shifu_code=b.shifu_code where b.balance_source='-1'";
+            if (string.IsNullOrEmpty(startDate) == false)
+            {
+                sqlString += " and b.create_date >= to_date('" + startDate + "','yyyy-mm-dd')";
+                sqlCountString += " and b.create_date >= to_date('" + startDate + "','yyyy-mm-dd')";
+                sqlTotalString += " and b.create_date >= to_date('" + startDate + "','yyyy-mm-dd')";
+            }
+            if (string.IsNullOrEmpty(endDate) == false)
+            {
+                sqlString += " and b.create_date <= to_date('" + endDate + "','yyyy-mm-dd')";
+                sqlCountString += " and b.create_date <= to_date('" + endDate + "','yyyy-mm-dd')";
+                sqlTotalString += " and b.create_date <= to_date('" + endDate + "','yyyy-mm-dd')";
+            }
+
+            if (string.IsNullOrEmpty(company) == false || string.IsNullOrEmpty(companyEmp) == false)
+            {
+                if (string.IsNullOrEmpty(company) == false)
+                {
+                    sqlString += " and b.shifu_code='" + company + "'";
+                    sqlCountString += " and b.shifu_code='" + company + "'";
+                    sqlTotalString += " and b.shifu_code='" + company + "'";
+                }
+                else
+                {
+                    sqlString += " and b.shifu_code='" + companyEmp + "'";
+                    sqlCountString += " and b.shifu_code='" + companyEmp + "'";
+                    sqlTotalString += " and b.shifu_code='" + companyEmp + "'";
+                }
+            }
+
+            if (string.IsNullOrEmpty(settlementNum) == false)
+            {
+                sqlString += " and mycode='" + settlementNum + "'";
+                sqlCountString += " and mycode='" + settlementNum + "'";
+                sqlTotalString += " and mycode='" + settlementNum + "'";
+            }
+
+            if (settlementStatus != "-1")
+            {
+                sqlString += " and b.balance_status='" + settlementStatus + "'";
+                sqlCountString += " and b.balance_status='" + settlementStatus + "'";
+                sqlTotalString += " and b.balance_status='" + settlementStatus + "'";
+            }
+            sqlPageString = sqlPageString.Replace("{table}", sqlString);
+
+            recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString));
+            var totalReader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlTotalString);
+            while (totalReader.Read())
+            {
+                if (string.IsNullOrEmpty(totalReader["total"].ToString()) == false)
+                {
+                    total = decimal.Parse(totalReader["total"].ToString());
+                    amount = int.Parse(totalReader["amount"].ToString());
+                }
+            }
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
+            while (reader.Read())
+            {
+                var emp = new SettlementModel
+                {
+                    SettlementNumber = reader["mycode"].ToString(),
+                    ReceiverAccount = reader["shifu_phone"].ToString(),
+                    ReceiverBankAccount = reader["bank_number"].ToString(),
+                    ReceiverName = reader["CASH_OBJECT"].ToString(),
+                    ReceiverNumber = reader["shifu_code"].ToString(),
+                    ReceiverTotal = decimal.Parse(reader["shifu_money"].ToString()),
+                    SettlementDate = DateTime.Parse(reader["create_date"].ToString()),
+                    SettlementStatus = reader["balance_status"].ToString()
+                };
+                result.Add(emp);
+            }
+
+            return result;
+            #endregion
+        }
+
+        public static bool SetSettlementStatus(string number)
+        {
+            var sqlString = "update shifu_balance_log set balance_status='-2' where mycode='" + number + "'";
+            return OracleHelper.ExecuteNonQuery(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString) > 0 ? true : false;
+        }
     }
 }

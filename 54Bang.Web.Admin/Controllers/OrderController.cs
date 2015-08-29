@@ -75,15 +75,26 @@ namespace _54Bang.Web.Admin.Controllers
         public ActionResult SettlementQuery(string city, string company, string companyEmp, string settlementNum, string startDate, string endDate, string settlementStatus, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
+            decimal total = 0;
+            var amount = 0;
             //todo 
-
-            ViewBag.RecordCount = 93;
-            ViewBag.PageSize = 20;
+            var list = AdminSysManager.SettlementQuery(city, company, companyEmp, settlementNum, startDate, endDate, settlementStatus, pageIndex, pageSize, out recordCount, out total, out amount);
+            ViewBag.RecordCount = recordCount;
+            ViewBag.PageSize = pageSize;
             ViewBag.CurrentIndex = pageIndex;
-            return View();
+            ViewBag.Total = total;
+            ViewBag.Amount = amount;
+
+            return View(list);
         }
 
+        [HttpPost]
+        public ActionResult SetSettlementStatus(string settlementNumber)
+        {
+            return Json(new { success = AdminSysManager.SetSettlementStatus(settlementNumber), msg = settlementNumber });
+        }
         [HttpGet]
         public ActionResult CompanySettlement()
         {

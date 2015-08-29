@@ -1,26 +1,28 @@
 ﻿@{
     ViewBag.Title = "结算管理";
-    
+
 }
 
 <h2 class="sub-header">结算管理</h2>
 <form>
     <div class="row">
-        地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
-            <option value="-1">全部</option>
-            @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
-            {
-                <option value="@item.Key">@item.Value</option>
-            }
-        </select>
-        &nbsp;&nbsp;&nbsp;一级公司账户:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
+        <div style="display:none;">
+            地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
+                <option value="-1">全部</option>
+                @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+            &nbsp;&nbsp;&nbsp;
+        </div>一级公司账户:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
         &nbsp;&nbsp;&nbsp;二级师傅账户:<input type="text" id="txt_CompanyEmp" value="" class="form-control" style="display: inline; width: 120px;" />
         &nbsp;&nbsp;&nbsp;结算单号:<input type="text" id="txt_SettlementNum" value="" class="form-control" style="display: inline; width: 120px;" />
         &nbsp;&nbsp;&nbsp;起止时间:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" />
         结算状态:<select id="sel_SettlementStatus" class="form-control" style="display: inline; width: 120px;">
             <option selected value="-1">全部</option>
-            <option value="已复核">已复核</option>
-            <option value="打款完成">打款完成</option>
+            <option value="1">申请提现</option>
+            <option value="-2">已打款</option>
         </select>
     </div>
     <div class="row" style="margin-top: 5px;">
@@ -29,13 +31,29 @@
         </div>
     </div>
 </form>
-<h4 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 结算金额：￥12222.00 手续费金额合计：122.00
-总笔数：123
+<h4 class="sub-header">
+    <a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 总金额：￥<span id="s_total"></span>总笔数：<span id="s_amount"></span>
 </h4>
 <div id="div_DataList">
     Loading...
 </div>
 <script type="text/javascript">
+    function setSettlementStatus(o,settlementNum) {
+        alert(settlementNum)
+        o.disabled = true;
+        $.ajax({
+            type: 'post',
+            url: "/Order/SetSettlementStatus",
+            data: { settlementNumber: settlementNum },
+            success: function (data) {
+                
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {                
+                alert("系统异常，请稍后再试！");
+                o.disabled = false;
+            }
+        });
+    }
     var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
         isClickPagerBtn = true;
@@ -45,6 +63,8 @@
     $(function () {
         //查询
         $("#btn_Query").on("click", function () {
+            $("#s_total").html("0.00");
+            $("#s_amount").html("0");
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
             if (isClickPagerBtn == false) {
                 pageIndex = 1;
@@ -68,6 +88,8 @@
                 success: function (data) {
                     $("#btn_Query").removeAttr("disabled");
                     $("#div_DataList").html(data);
+                    $("#s_total").html($("#tbl_data_list").attr("data-total"));
+                    $("#s_amount").html($("#tbl_data_list").attr("data-amount"));
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#btn_Query").removeAttr("disabled");
@@ -79,4 +101,3 @@
         $("#btn_Query").click();
     });
 </script>
-

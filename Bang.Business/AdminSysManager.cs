@@ -55,5 +55,16 @@ namespace Bang.Business
         {
             return AdminSysDataAccess.CompanySettlementQuery(companyCode, year, month, out total);
         }
+
+        public static List<SettlementModel> SettlementQuery(string city, string company, string companyEmp, string settlementNum, string startDate, string endDate, string settlementStatus, int pageIndex, int pageSize, out int recordCount, out decimal total, out int amount)
+        {
+            return AdminSysDataAccess.SettlementQuery(city, company, companyEmp, settlementNum, startDate, endDate, settlementStatus, pageIndex, pageSize, out recordCount, out total, out amount);
+        }
+
+        public static bool SetSettlementStatus(string number)
+        {
+            return AdminSysDataAccess.SetSettlementStatus(number);
+        }
+
     }
 }
