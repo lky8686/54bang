@@ -46,20 +46,17 @@ namespace Bang.DataAccess
             recordCount = 0;
             var startIndex = pageIndex * pageSize + 1;
             var endIndex = startIndex + pageSize - 1;
-            OracleParameterCollection paramList = new OracleParameterCollection();
-            var paramArray = new OracleParameter[] { };
-            OracleParameterCollection paramListCount = new OracleParameterCollection();
-            var paramArrayCount = new OracleParameter[] { };
+            var paramList = new List<OracleParameter>();
+           
             var sqlCountString = "select count(1) as myCount from shifu_reg where company_code= '" + companyCode + "'";//login_status='0' and shifu_code in (select shifu_code from shifu_category_price where category_code='01') and shifu_phone='18612920767'
-            var sqlString = "select rownum as rn,s.shifu_phone,sf_real_name,r.login_status,shifu_level,r.shifu_reg_date from shifu_reg r left join shifu_details s on r.shifu_code=s.shifu_code where r.company_code='" + companyCode + "'";//
+            var sqlString = "select rownum as rn,r.company_code,s.shifu_phone,sf_real_name,r.login_status,shifu_level,r.shifu_reg_date from shifu_reg r left join shifu_details s on r.shifu_code=s.shifu_code where r.company_code='" + companyCode + "'";//
             if (string.IsNullOrEmpty(empAccount) == false)
             {
                 #region
                 //sqlCountString += " and shifu_phone='" + empAccount + "'";
                 //sqlString += " and r.shifu_phone='" + empAccount + "'";
-                sqlCountString += " and shifu_phone=':empAccount'";
-                sqlString += " and r.shifu_phone=':empAccount'";
-                paramListCount.Add(new OracleParameter { ParameterName = "empAccount", Value = empAccount });
+                sqlCountString += " and shifu_phone=:empAccount";
+                sqlString += " and r.shifu_phone=:empAccount";
                 paramList.Add(new OracleParameter { ParameterName = "empAccount", Value = empAccount });
                 #endregion
             }
@@ -69,10 +66,9 @@ namespace Bang.DataAccess
                 #region
                 //sqlCountString += " and login_status='" + status + "'";
                 //sqlString += " and login_status='" + status + "'";
-                sqlCountString += " and login_status=':status'";
-                sqlString += " and login_status=':status'";
+                sqlCountString += " and login_status=:status";
+                sqlString += " and login_status=:status";
 
-                paramListCount.Add(new OracleParameter { ParameterName = "status", Value = status });
                 paramList.Add(new OracleParameter { ParameterName = "status", Value = status });
                 #endregion
             }
@@ -83,20 +79,18 @@ namespace Bang.DataAccess
                 //sqlCountString += " and shifu_code in (select shifu_code from shifu_category_price where category_code='" + serviceType + "')";
                 //sqlString += " and r.shifu_code in (select shifu_code from shifu_category_price where category_code='" + serviceType + "')";
 
-                sqlCountString += " and shifu_code in (select shifu_code from shifu_category_price where category_code=':serviceType')";
-                sqlString += " and r.shifu_code in (select shifu_code from shifu_category_price where category_code=':serviceType')";
+                sqlCountString += " and shifu_code in (select shifu_code from shifu_category_price where category_code=:serviceType)";
+                sqlString += " and r.shifu_code in (select shifu_code from shifu_category_price where category_code=:serviceType)";
 
-                paramListCount.Add(new OracleParameter { ParameterName = "serviceType", Value = serviceType });
                 paramList.Add(new OracleParameter { ParameterName = "serviceType", Value = serviceType });
                 #endregion
             }
 
             sqlString = "select * from (" + sqlString + ")  m where rn >=" + startIndex + " and rn <= " + endIndex;
             //return result;
-
+            var paramArray = new OracleParameter[paramList.Count];
             paramList.CopyTo(paramArray, 0);
-            paramListCount.CopyTo(paramArrayCount, 0);
-            recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString, paramArrayCount));
+            recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString, paramArray));
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString, paramArray);
             while (reader.Read())
             {
