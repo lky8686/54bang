@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "交易管理";
-    
+
 }
 
 <h2 class="sub-header">交易管理</h2>
@@ -37,20 +37,27 @@
         </div>
     </div>
 </form>
-<h4 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 交易金额合计：￥12222.00 手续费金额合计：122.00
-总笔数：123
+<h4 class="sub-header">
+    <a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 交易金额合计：￥12222.00 手续费金额合计：122.00
+    总笔数：123
 </h4>
 <div id="div_DataList">
     Loading...
 </div>
 <script type="text/javascript">
+    var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
+        isClickPagerBtn = true;
         $("#btn_Query").click();
+        isClickPagerBtn = false;
     }
     $(function () {
         //查询
         $("#btn_Query").on("click", function () {
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            if (isClickPagerBtn == false) {
+                pageIndex = 1;
+            }
             var postData = {
                 city: $("#sel_City option:selected").val(),
                 startDate: $("#date_start").val(),

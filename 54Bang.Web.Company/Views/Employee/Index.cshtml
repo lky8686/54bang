@@ -1,12 +1,11 @@
 ﻿@{
-    ViewBag.Title = "师傅列表";
-
+    ViewBag.Title = "师傅列表";    
 }
 <h2 class="sub-header">师傅列表</h2>
 <form>
     <div class="row">
         <div class="col-md-2">
-            机构名称:asdfasdfasdf
+            机构名称:@Html.Raw(_54Bang.Web.Company.Authentication.UserContext.Current.UserName)
         </div>
         <div class="col-md-7">
             师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
@@ -59,8 +58,11 @@
 </script>
 <script type="text/javascript" src="/Resources/js/PagePromptBox.js"></script>
 <script type="text/javascript">
+    var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
+        isClickPagerBtn = true;
         $("#btn_Query").click();
+        isClickPagerBtn = false;
     }
     $(function () {
         $("#AddEmp").on("click", function () {
@@ -117,6 +119,9 @@
         //查询
         $("#btn_Query").on("click", function () {
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            if (isClickPagerBtn == false) {
+                pageIndex = 1;
+            }
             var postData = {
                 empAccount: $("#txt_EmpAccount").val(),
                 serviceType: $("#sel_ServiceType").find("option:selected").val(),

@@ -36,13 +36,19 @@
     Loading...
 </div>
 <script type="text/javascript">
+    var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
+        isClickPagerBtn = true;
         $("#btn_Query").click();
+        isClickPagerBtn = false;
     }
     $(function () {
         //查询
         $("#btn_Query").on("click", function () {
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            if (isClickPagerBtn == false) {
+                pageIndex = 1;
+            }
             var postData = {
                 city: $("#sel_City option:selected").val(),
                 company: $("#txt_Company").val(),

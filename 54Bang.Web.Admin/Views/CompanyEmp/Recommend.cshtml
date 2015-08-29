@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "师傅推荐";
-    
+
 }
 
 <h2 class="sub-header">师傅推荐列表</h2>
@@ -16,19 +16,19 @@
             </select>
             &nbsp;&nbsp;&nbsp;
         </div>年:
-            <select id="sel_Year" class="form-control" style="display: inline; width: 90px;">
-                @for (var y = DateTime.Now.Year; y >= 2015; y--)
-                { 
-                    <option value="@y" @Html.Raw(y == DateTime.Now.Year ? "selected" : "")>@y</option>
-                }
-            </select>
+        <select id="sel_Year" class="form-control" style="display: inline; width: 90px;">
+            @for (var y = DateTime.Now.Year; y >= 2015; y--)
+            {
+                <option value="@y" @Html.Raw(y == DateTime.Now.Year ? "selected" : "")>@y</option>
+            }
+        </select>
         &nbsp;&nbsp;&nbsp;月:
-            <select id="sel_Month" class="form-control" style="display: inline; width: 90px;">
-                @for (var m = 1; m <= 12; m++)
-                { 
-                    <option value="@m" @Html.Raw(m == DateTime.Now.Month ? "selected" : "")>@m</option>
-                }
-            </select>
+        <select id="sel_Month" class="form-control" style="display: inline; width: 90px;">
+            @for (var m = 1; m <= 12; m++)
+            {
+                <option value="@m" @Html.Raw(m == DateTime.Now.Month ? "selected" : "")>@m</option>
+            }
+        </select>
 
         &nbsp;&nbsp;&nbsp;一级公司:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
         &nbsp;&nbsp;&nbsp;师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
@@ -44,13 +44,19 @@
     Loading...
 </div>
 <script type="text/javascript">
+    var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
+        isClickPagerBtn = true;
         $("#btn_Query").click();
+        isClickPagerBtn = false;
     }
     $(function () {
         //查询
         $("#btn_Query").on("click", function () {
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            if (isClickPagerBtn == false) {
+                pageIndex = 1;
+            }
             var postData = {
                 city: $("#sel_City option:selected").val(),
                 year: $("#sel_Year option:selected").val(),

@@ -22,22 +22,24 @@ namespace Bang.DataAccess
 
             OracleParameterCollection paramList = new OracleParameterCollection();
             OracleParameterCollection countParamList = new OracleParameterCollection();
-            var paramArray = new OracleParameter[] { };
-            var countParamArray = new OracleParameter[] { };
 
             var countSqlString = "  select count(*) as rowCount from v_company_order v where 1=1 ";
             var sqlString = "select * from ( select rownum as rn,v.order_number,v.order_time,v.pay_total,v.c_phone,v.shifu_phone,v.category_value,v.order_status,v.release_status,v.money_status,v.category_code from v_company_order v ) m where rn >=" + startIndex + " and rn <=" + endIndex;//
 
             sqlString += " and shifu_phone in (select shifu_phone from shifu_reg where company_code=':companyCode'" + (string.IsNullOrEmpty(empAccount) ? "" : " and shifu_phone =':empAccount')") + ")";
             countSqlString += " and shifu_phone in (select shifu_phone from shifu_reg where company_code=':companyCode'" + (string.IsNullOrEmpty(empAccount) ? "" : " and shifu_phone =':empAccount')") + ")";
-            paramList.Add(new OracleParameter { ParameterName = "companyCode", Value = companyCode });
-            countParamList.Add(new OracleParameter { ParameterName = "companyCode", Value = companyCode });
+            //paramList.Add(new OracleParameter { ParameterName = "companyCode", Value = companyCode });
+            //countParamList.Add(new OracleParameter { ParameterName = "companyCode", Value = companyCode });
+            paramList.Add(OracleHelper.MakeParam("companyCode", companyCode));
+            countParamList.Add(OracleHelper.MakeParam("companyCode", companyCode));
 
             if (!string.IsNullOrEmpty(empAccount))
             {
                 //paramList.Add(new OracleParameter { ParameterName = "", Value =  });
                 paramList.Add(new OracleParameter { ParameterName = "empAccount", Value = empAccount });
                 countParamList.Add(new OracleParameter { ParameterName = "empAccount", Value = empAccount });
+                //paramList.Add(OracleHelper.MakeParam("",));
+                //countParamList.Add(OracleHelper.MakeParam("",));
             }
 
             if (serviceType != "-1")
@@ -100,7 +102,8 @@ namespace Bang.DataAccess
             }
 
             //return result;
-
+            var paramArray = new OracleParameter[paramList.Count];
+            var countParamArray = new OracleParameter[countParamList.Count];
             paramList.CopyTo(paramArray, 0);
             countParamList.CopyTo(countParamArray, 0);
             recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, countSqlString, countParamArray));

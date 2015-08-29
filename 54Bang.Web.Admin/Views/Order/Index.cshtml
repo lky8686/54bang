@@ -41,19 +41,25 @@
     Loading...
 </div>
 <script type="text/javascript">
+    var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
+        isClickPagerBtn = true;
         $("#btn_Query").click();
+        isClickPagerBtn = false;
     }
     $(function () {
         //查询
-        $("#btn_Query").on("click", function () {
+        $("#btn_Query").on("click", function (o) {
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            if (isClickPagerBtn == false) {
+                pageIndex = 1;
+            }
             var postData = {
                 city: $("#sel_City option:selected").val(),
                 startDate: $("#date_start").val(),
                 endDate: $("#date_end").val(),
                 empAccount: $("#txt_EmpAccount").val(),
-                orderStatus:$("#sel_OrderStatus option:selected").val(),
+                orderStatus: $("#sel_OrderStatus option:selected").val(),
                 serviceType: $("#sel_ServiceType option:selected").val(),
                 pageIndex: pageIndex
             };

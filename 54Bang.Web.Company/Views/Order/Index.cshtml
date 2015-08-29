@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-2">
-        机构名称:asdfasdfasdf
+        机构名称:@Html.Raw(_54Bang.Web.Company.Authentication.UserContext.Current.UserName)
     </div>
     <div class="col-md-6">起止日期:<input id="date_start" class="form-control" style="display: inline; width: 100px;" type="text" onclick="WdatePicker()" />-<input id="date_end" type="text" onclick="    WdatePicker()" class="form-control" style="display: inline; width: 100px;" />
         师傅账户:<input type="text" id="txt_EmpAccount" value="" class="form-control" style="display: inline; width: 120px;" />
@@ -41,13 +41,19 @@
     Loading...
 </div>
 <script type="text/javascript">
+    var isClickPagerBtn = false;
     function bang_pb_callback_fn(index) {
+        isClickPagerBtn = true;
         $("#btn_Query").click();
+        isClickPagerBtn = false;
     }
 
     $(function () {
         $("#btn_Query").on("click", function () {
             var pi = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
+            if (isClickPagerBtn == false) {
+                pageIndex = 1;
+            }
             var postData = {
                 startDate: $("#date_start").val(),
                 endDate: $("#date_end").val(),
