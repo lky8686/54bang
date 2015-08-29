@@ -23,12 +23,12 @@ namespace Bang.DataAccess
             //OracleParameterCollection paramList = new OracleParameterCollection();
             //OracleParameterCollection countParamList = new OracleParameterCollection();
             List<OracleParameter> paramList = new List<OracleParameter>();
-            
-            var countSqlString = "  select count(*) as rowCount from v_company_order v where 1=1 ";
-            var sqlString = "select * from ( select rownum as rn,v.order_number,v.order_time,v.pay_total,v.c_phone,v.shifu_phone,v.category_value,v.order_status,v.release_status,v.money_status,v.category_code from v_company_order v ) m where rn >=" + startIndex + " and rn <=" + endIndex;//
 
-            sqlString += " and shifu_phone in (select shifu_phone from shifu_reg where company_code=:companyCode" + (string.IsNullOrEmpty(empAccount) ? "" : " and shifu_phone =:empAccount)") + ")";
-            countSqlString += " and shifu_phone in (select shifu_phone from shifu_reg where company_code=:companyCode" + (string.IsNullOrEmpty(empAccount) ? "" : " and shifu_phone =:empAccount)") + ")";
+            var countSqlString = "  select count(*) as rowCount from v_company_order v where 1=1 ";
+            var sqlString = "select * from ( select rownum as rn,v.order_number,v.order_time,v.pay_total,v.c_phone,v.shifu_phone,v.category_value,v.order_status,v.release_status,v.money_status,v.category_code from v_company_order v where 1=1 ";//
+
+            sqlString += " and shifu_phone in (select shifu_phone from shifu_reg where company_code=:companyCode" + (string.IsNullOrEmpty(empAccount) ? "" : " and shifu_phone =:empAccount") + ")";
+            countSqlString += " and shifu_phone in (select shifu_phone from shifu_reg where company_code=:companyCode" + (string.IsNullOrEmpty(empAccount) ? "" : " and shifu_phone =:empAccount") + ")";
             //paramList.Add(new OracleParameter { ParameterName = "companyCode", Value = companyCode });
             //countParamList.Add(new OracleParameter { ParameterName = "companyCode", Value = companyCode });
             paramList.Add(OracleHelper.MakeParam("companyCode", companyCode));
@@ -42,8 +42,8 @@ namespace Bang.DataAccess
             if (serviceType != "-1")
             {
                 #region
-                sqlString += " and v.category_code=':serviceType'";
-                countSqlString += " and v.category_code=':serviceType'";
+                sqlString += " and v.category_code=:serviceType";
+                countSqlString += " and v.category_code=:serviceType";
                 paramList.Add(new OracleParameter { ParameterName = "serviceType", Value = serviceType });
                 #endregion
             }
@@ -63,18 +63,18 @@ namespace Bang.DataAccess
                  */
                 if (status == "1" || status == "2" || status == "3")
                 {
-                    sqlString += " and v.order_status=':status'";
-                    countSqlString += " and v.order_status=':status'";
+                    sqlString += " and v.order_status=:status";
+                    countSqlString += " and v.order_status=:status";
                 }
                 else if (status == "4")
                 {
-                    sqlString += " and v.release_status=':status'";
-                    countSqlString += " and v.release_status=':status'";
+                    sqlString += " and v.release_status=:status";
+                    countSqlString += " and v.release_status=:status";
                 }
                 else
                 {//5
-                    sqlString += " and v.money_status=':status'";
-                    countSqlString += " and v.money_status=':status'";
+                    sqlString += " and v.money_status=:status";
+                    countSqlString += " and v.money_status=:status";
                 }
                 paramList.Add(new OracleParameter { ParameterName = "status", Value = status });
                 #endregion
@@ -82,18 +82,18 @@ namespace Bang.DataAccess
 
             if (string.IsNullOrEmpty(startDate) == false)
             {
-                sqlString += " and v.order_time>=':startDate'";
-                countSqlString += " and v.order_time>=':startDate'";
-                paramList.Add(new OracleParameter { ParameterName = "startDate", Value = startDate });
+                sqlString += " and v.order_time>=:startDate";
+                countSqlString += " and v.order_time>=:startDate";
+                paramList.Add(new OracleParameter { ParameterName = "startDate", Value = startDate, OracleType = OracleType.DateTime });
             }
 
             if (string.IsNullOrEmpty(endDate) == false)
             {
-                sqlString += " and v.order_time<=':endDate'";
-                countSqlString += " and v.order_time<=':endDate'";
-                paramList.Add(new OracleParameter { ParameterName = "endDate", Value = endDate });
+                sqlString += " and v.order_time<=:endDate";
+                countSqlString += " and v.order_time<=:endDate";
+                paramList.Add(new OracleParameter { ParameterName = "endDate", Value = endDate, OracleType = OracleType.DateTime });
             }
-
+            sqlString += ") m where rn >=" + startIndex + " and rn <=" + endIndex;
             //return result;
 
             var paramsArr = new OracleParameter[paramList.Count];
