@@ -237,7 +237,7 @@ namespace Bang.DataAccess
             var endIndex = startIndex + pageSize - 1;
 
             var result = new List<OrderModel>();
-            var sqlString = "select rownum as rn, o.order_number,o.order_time,o.order_status,c.category_value,o.pay_total,r.shifu_phone,o.c_phone from order_info o , order_rob_shifu r , dic_category c where  c.category_code=o.category_code and r.order_number=o.order_number and r.rob_status in ('80','90') ";
+            var sqlString = "select rownum as rn, o.order_number,o.order_time,o.order_status,o.release_status,o.money_status,c.category_value,o.pay_total,r.shifu_phone,o.c_phone from order_info o , order_rob_shifu r , dic_category c where  c.category_code=o.category_code and r.order_number=o.order_number and r.rob_status in ('80','90') ";
             var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
             var sqlCountString = "select count(*) rCount from order_info o , order_rob_shifu r , dic_category c where  c.category_code=o.category_code and r.order_number=o.order_number and r.rob_status in ('80','90') ";
             // 
@@ -306,7 +306,7 @@ namespace Bang.DataAccess
             //return result;
 
             recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString));
-            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
             while (reader.Read())
             {
                 var emp = new OrderModel
