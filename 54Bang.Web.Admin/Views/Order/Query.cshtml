@@ -26,7 +26,31 @@
                     <td>@index</td>
                     <td>@item.OrderId</td>
                     <td>@item.TradeDate</td>
-                    <td>@item.Status  --- @item.ReleaseStatus --- @item.MoneyStatus</td>
+                    <td>
+                        @if (item.ReleaseStatus == "5")
+                        {
+                            @Html.Raw("已取消")
+                        }
+                        else if (item.MoneyStatus == "-10" || item.MoneyStatus == "-15")
+                        {
+                            @Html.Raw("待退款");
+                        }
+                        else
+                        {
+                            if (item.Status == "15")
+                            {
+                                @Html.Raw("等待支付");
+                            }
+                            else if (item.Status == "90")
+                            {
+                                @Html.Raw("服务已完成");
+                            }
+                            else
+                            {
+                                @Html.Raw("服务中");
+                            }
+                        }
+                    </td>
                     <td>@item.ServiceType</td>
                     <td>@item.Total</td>
                     <td>--</td>
@@ -34,7 +58,7 @@
                     <td>@item.CompanyEmpAccount</td>
                     <td>@item.Customer</td>
                 </tr>
-                index++;
+                        index++;
             }
     </table>
 </div>

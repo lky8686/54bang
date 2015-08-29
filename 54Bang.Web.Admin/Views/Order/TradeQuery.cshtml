@@ -25,12 +25,17 @@
                     <td>@item.OrderId</td>
                     <td>@item.BankSerialNumber</td>
                     <td>@item.OrderDate</td>
-                    <td>@item.TradeOrg</td>
+                    <td>@Html.Raw(item.TradeOrg == "0" ? "微信财付通" : "支付宝")</td>
                     <td>@item.OrderTotal</td>
                     <td>---</td>
-                    <td>@item.PaymentStatus</td>
+                    <td>
+                        @if (Bang.Business.BaseDataManager.PaymentStatusList().ContainsKey(int.Parse(item.PaymentStatus)))
+                        {
+                            @Html.Raw(Bang.Business.BaseDataManager.PaymentStatusList()[int.Parse(item.PaymentStatus)])
+                        }
+                    </td>
                 </tr>
-                index++;
+                        index++;
             }
 
     </table>

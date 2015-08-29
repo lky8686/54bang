@@ -52,7 +52,7 @@ namespace Bang.DataAccess
 
             var result = new List<CompanyEmployeeModel>();
 
-            var sqlString = "select rownum as rn, r.shifu_phone,d.sf_real_name,r.login_status,d.shifu_level,r.shifu_reg_date from shifu_reg r,shifu_details d where r.shifu_code=d.shifu_code ";
+            var sqlString = "select rownum as rn,d.company_code, r.shifu_phone,d.sf_real_name,r.login_status,d.shifu_level,r.shifu_reg_date from shifu_reg r,shifu_details d where r.shifu_code=d.shifu_code ";
             var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
             var sqlCountString = "select count(*) rcount from shifu_reg r,shifu_details d where r.shifu_code=d.shifu_code ";
             //  and r.company_code='' and r.shifu_phone='' and r.city_code='' and  r.shifu_code in (select shifu_code from shifu_category_price where category_code='')
@@ -61,7 +61,7 @@ namespace Bang.DataAccess
                 sqlString += " and r.city_code='" + city + "' ";
                 sqlCountString += " and r.city_code='" + city + "' ";
             }
-            if (string.IsNullOrEmpty(serviceType) == false)
+            if (serviceType != "-1")
             {
                 sqlString += "and  r.shifu_code in (select shifu_code from shifu_category_price where category_code='" + serviceType + "') ";
                 sqlCountString += "and  r.shifu_code in (select shifu_code from shifu_category_price where category_code='" + serviceType + "') ";
@@ -360,9 +360,9 @@ namespace Bang.DataAccess
 
             if (string.IsNullOrEmpty(orderNum) == false)
             {
-                sqlString += " and ORDER_NUMBER='" + orderNum + "'";
-                sqlCountString += " and ORDER_NUMBER='" + orderNum + "'";
-                sqlTotalString += " and ORDER_NUMBER='" + orderNum + "'";
+                sqlString += " and p.order_number='" + orderNum + "'";
+                sqlCountString += " and p.order_number='" + orderNum + "'";
+                sqlTotalString += " and p.order_number='" + orderNum + "'";
             }
 
             if (string.IsNullOrEmpty(bankSerialNumber) == false)

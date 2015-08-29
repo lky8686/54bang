@@ -22,7 +22,7 @@
                     <td>@index</td>
                     <td>@item.OrderId</td>
                     <td>+@item.TradeTotal</td>
-                    <td>@item.ServiceType</td>
+                    <td>@Html.Raw(item.ServiceType == "1" ? "诚意金" : "一口价")</td>
                     <td>@item.EmpAccount</td>
                     <td>@item.OrderDate</td>
                 </tr>

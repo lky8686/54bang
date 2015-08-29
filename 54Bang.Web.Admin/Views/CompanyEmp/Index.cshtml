@@ -82,6 +82,7 @@
         })
         //冻结
         $("#btnDisable").on("click", function () {
+            debugger;
             var empAccountArr = getSelectedEmpAccountList();
             if (empAccountArr.length == 0) {
                 alert("请选择师傅")
@@ -90,7 +91,6 @@
 
             $("#btnDisable").attr("disabled", true);
             var empIds = empAccountArr.join(",");
-
             $.ajax({
                 type: 'post',
                 url: "/CompanyEmp/SetCompanyEmpStatus",
@@ -99,6 +99,7 @@
                     $("#btnDisable").removeAttr("disabled");
                     if (data.success) {
                         alert("保存成功:" + data.msg)
+                        bang_pb_callback_fn(1);
                     } else {
                         alert("保存失败:" + data.msg)
                     }
@@ -140,6 +141,7 @@
                     $("#btnEnable").removeAttr("disabled");
                     if (data.success) {
                         alert("保存成功:" + data.msg)
+                        bang_pb_callback_fn(1);
                     } else {
                         alert("保存失败:" + data.msg)
                     }

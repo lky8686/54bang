@@ -1,15 +1,16 @@
-﻿@model List<Bang.Models.CompanyEmployeeModel> 
+﻿@model List<Bang.Models.CompanyEmployeeModel>
 @{
     Layout = null;
     var index = 1;
 }
-
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th><input type="checkbox" name="chk_all" />
-                    序号</th>
+                <th>
+                    <input type="checkbox" name="chk_all" />
+                    序号
+                </th>
                 <th>师傅账户</th>
                 <th>姓名</th>
                 <th>账户状态</th>
@@ -19,26 +20,17 @@
         </thead>
         <tbody>
             @foreach (var item in Model)
-            { 
+            {
                 <tr>
-                    <th><input type="checkbox" data-emp-account="@item.CompanyId"/> @index</th>
+                    <th><input type="checkbox" data-emp-account="@item.AccountId" /> @index</th>
                     <td>@item.AccountId</td>
                     <td>@item.Name</td>
-                    <td>@item.Status</td>
+                    <td>@Html.Raw(item.Status == "0" ? "正常" : "冻结")</td>
                     <td>@item.CreditRating</td>
                     <td>@item.RegDate</td>
                 </tr>
                 index++;
             }
-             <tr>
-                <th><input type="checkbox" data-emp-account="13455668899"/>
-                    序号</th>
-                <th>师傅账户</th>
-                <th>姓名</th>
-                <th>账户状态</th>
-                <th>信用等级</th>
-                <th>注册时间</th>
-            </tr>
     </table>
 </div>
 @Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

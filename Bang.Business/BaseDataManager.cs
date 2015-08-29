@@ -63,7 +63,7 @@ namespace Bang.Business
         public static Dictionary<int, string> PaymentStatusList()
         {
             var result = new Dictionary<int, string>();
-            result.Add(0, "支付成功;");
+            result.Add(0, "支付成功");
             result.Add(5, "支付失败");
             result.Add(7, "关闭订单失败");
             result.Add(8, "订单已关闭");
