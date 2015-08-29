@@ -1,37 +1,37 @@
 ﻿@{
     ViewBag.Title = "公司结算管理";
 }
-
 <h2 class="sub-header">公司结算管理</h2>
-
 <div class="row">
-   地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
+    <div style="display:none;">
+        地区:<select id="sel_City" class="form-control" style="display: inline; width: 120px;">
             <option value="-1">全部</option>
             @foreach (var item in Bang.Business.BaseDataManager.GetCityList())
             {
                 <option value="@item.Key">@item.Value</option>
             }
         </select>
-        &nbsp;&nbsp;&nbsp;一级公司账户:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
+        &nbsp;&nbsp;&nbsp;
+    </div>一级公司账户:<input type="text" id="txt_Company" value="" class="form-control" style="display: inline; width: 120px;" />
     &nbsp;&nbsp;&nbsp;年:
-            <select id="sel_Year" class="form-control" style="display: inline; width: 90px;">
-                @for (var y = DateTime.Now.Year; y >= 2015; y--)
-                { 
-                    <option value="@y" @Html.Raw(y == DateTime.Now.Year ? "selected" : "")>@y</option>
-                }
-            </select>
+    <select id="sel_Year" class="form-control" style="display: inline; width: 90px;">
+        @for (var y = DateTime.Now.Year; y >= 2015; y--)
+        {
+            <option value="@y" @Html.Raw(y == DateTime.Now.Year ? "selected" : "")>@y</option>
+        }
+    </select>
     &nbsp;&nbsp;&nbsp;月:
-            <select id="sel_Month" class="form-control" style="display: inline; width: 90px;">
-                @for (var m = 1; m <= 12; m++)
-                { 
-                    <option value="@m" @Html.Raw(m == DateTime.Now.Month ? "selected" : "")>@m</option>
-                }
-            </select>&nbsp;&nbsp;&nbsp;
-        <input type="button" id="btn_Query" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
+    <select id="sel_Month" class="form-control" style="display: inline; width: 90px;">
+        @for (var m = 1; m <= 12; m++)
+        {
+            <option value="@m" @Html.Raw(m == DateTime.Now.Month ? "selected" : "")>@m</option>
+        }
+    </select>&nbsp;&nbsp;&nbsp;
+    <input type="button" id="btn_Query" class="btn btn-default" value="查&nbsp;&nbsp;&nbsp;&nbsp;询" />
 </div>
 <div class="row">
     <div class="col-md-5">
-        <h2>交易总金额:3213213.13213</h2>
+        <h2>交易总金额:<span id="s_total"></span></h2>
     </div>
 </div>
 <h5 class="sub-header"><a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a></h5>
@@ -41,6 +41,7 @@
 <script type="text/javascript">
     $(function () {
         $("#btn_Query").on("click", function () {
+            $("#s_total").html("0.00");
             var postData = {
                 city: $("#sel_City option:selected").val(),
                 companyCode: $("#txt_Company").val(),
@@ -56,6 +57,7 @@
                 success: function (data) {
                     $("#btn_Query").removeAttr("disabled");
                     $("#div_DataList").html(data);
+                    $("#s_total").html($("#tbl_data_list").attr("data-total"));
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#btn_Query").removeAttr("disabled");
@@ -73,4 +75,3 @@
         tableImportToExcel("tbl_data_list");
     })
 </script>
-

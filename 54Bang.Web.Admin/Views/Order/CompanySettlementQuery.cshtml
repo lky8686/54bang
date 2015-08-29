@@ -1,9 +1,10 @@
-﻿@{
+﻿@model List<Bang.Models.CompanySettlementModel>
+@{
     Layout = null;
+    var index = 1;
 }
-
 <div class="table-responsive">
-    <table class="table table-striped" id="tbl_data_list">
+    <table class="table table-striped" id="tbl_data_list" data-total="@ViewBag.Total">
         <thead>
             <tr>
                 <th>序号</th>
@@ -15,29 +16,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>0123456789</td>
-                <td>+100.12</td>
-                <td>服务费</td>
-                <td>13801001234</td>
-                <td>2015-07-07 13:14:55</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>订单号</td>
-                <td>交易额</td>
-                <td>类型</td>
-                <td>师傅账户</td>
-                <td>订单时间</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>订单号</td>
-                <td>交易额</td>
-                <td>类型</td>
-                <td>师傅账户</td>
-                <td>订单时间</td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@item.OrderId</td>
+                    <td>+@item.TradeTotal</td>
+                    <td>@item.ServiceType</td>
+                    <td>@item.EmpAccount</td>
+                    <td>@item.OrderDate</td>
+                </tr>
+                index++;
+            }
     </table>
 </div>

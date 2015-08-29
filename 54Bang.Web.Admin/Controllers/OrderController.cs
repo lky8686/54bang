@@ -93,7 +93,10 @@ namespace _54Bang.Web.Admin.Controllers
         [HttpPost]
         public ActionResult CompanySettlementQuery(string city, string companyCode, string year, string month)
         {
-            return View();
+            decimal total = 0;
+            var list = AdminSysManager.CompanySettlementQuery(companyCode, year, month, out total);
+            ViewBag.Total = total;
+            return View(list);
         }
 
     }

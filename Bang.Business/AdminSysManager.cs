@@ -50,5 +50,10 @@ namespace Bang.Business
         {
             return AdminSysDataAccess.OrderTradeQuery(city, startDate, endDate, orderNum, bankSerialNumber, tradeStatus, tradeOrg, pageIndex, pageSize, out recordCount, out total, out amount);
         }
+
+        public static List<CompanySettlementModel> CompanySettlementQuery(string companyCode, string year, string month, out decimal total)
+        {
+            return AdminSysDataAccess.CompanySettlementQuery(companyCode, year, month, out total);
+        }
     }
 }

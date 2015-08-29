@@ -414,5 +414,48 @@ namespace Bang.DataAccess
             return result;
             #endregion
         }
+
+        public static List<CompanySettlementModel> CompanySettlementQuery(string companyCode, string year, string month, out decimal total)
+        {
+            #region
+            total = 0;
+            var startDate = new DateTime(int.Parse(year), int.Parse(month), 1);
+            var endDate = startDate.AddMonths(1);
+
+            var result = new List<CompanySettlementModel>();
+            var sqlString = "select o.order_number,o.pay_total,o.money_type,r.shifu_phone,o.order_time from order_info o , order_rob_shifu r  where o.order_number=r.order_number and r.rob_status in ('80','90') and o.order_status='90' and o.money_status='5'";
+            var sqlTotalString = "select sum(o.pay_total) as total,count(1) as myCount from order_info o , order_rob_shifu r where o.order_number=r.order_number and r.rob_status in ('80','90') and o.order_status='90' and o.money_status='5' ";
+
+            sqlString += " and o.order_time between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') ";
+            sqlTotalString += " and o.order_time between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') ";
+
+            if (string.IsNullOrEmpty(companyCode) == false)
+            {
+                sqlString += " and r.shifu_code in (select shifu_code from shifu_details d where d.company_code='" + companyCode + "') ";
+                sqlTotalString += " and r.shifu_code in (select shifu_code from shifu_details d where d.company_code='" + companyCode + "') ";
+            }
+
+            var totalReader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlTotalString);
+            while (totalReader.Read())
+            {
+                total = string.IsNullOrEmpty(totalReader["total"].ToString()) ? 0 : decimal.Parse(totalReader["total"].ToString());
+            }
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);
+            while (reader.Read())
+            {
+                var emp = new CompanySettlementModel
+                {
+                    OrderId = reader["order_number"].ToString(),
+                    ServiceType = reader["money_type"].ToString(),
+                    EmpAccount = reader["shifu_phone"].ToString(),
+                    OrderDate = string.IsNullOrEmpty(reader["order_time"].ToString()) ? DateTime.MinValue : DateTime.Parse(reader["order_time"].ToString()),
+                    TradeTotal = decimal.Parse(reader["pay_total"].ToString())
+                };
+                result.Add(emp);
+            }
+
+            return result;
+            #endregion
+        }
     }
 }
