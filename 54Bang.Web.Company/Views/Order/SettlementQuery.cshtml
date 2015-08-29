@@ -2,10 +2,10 @@
 @{
     Layout = null;
     var index = 1;
+    decimal total = 0;
 }
-
 <div class="table-responsive">
-    <table class="table table-striped" id="tbl_data_list">
+    <table class="table table-striped" id="tbl_data_list" data-total="@total">
         <thead>
             <tr>
                 <th>序号</th>
@@ -27,6 +27,7 @@
                     <td>@item.EmpAccount</td>
                     <td>@item.OrderDate</td>
                 </tr>
+                total += item.TradeTotal;
             }
     </table>
 </div>
