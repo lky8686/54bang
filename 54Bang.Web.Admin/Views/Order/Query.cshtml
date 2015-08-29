@@ -45,7 +45,7 @@
                             {
                                 @Html.Raw("服务已完成");
                             }
-                            else
+                            else if (item.Status == "20" || item.Status == "25")
                             {
                                 @Html.Raw("服务中");
                             }

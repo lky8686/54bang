@@ -26,7 +26,7 @@
                     <td>@index</td>
                     <td>@item.OrderId</td>
                     <td>@item.TradeDate</td>
-                    <td>
+                    <td data-status="@item.ReleaseStatus - @item.MoneyStatus - @item.Status">
                         @if (item.ReleaseStatus == "5")
                         {
                             @Html.Raw("已取消")
@@ -45,7 +45,7 @@
                             {
                                 @Html.Raw("服务已完成");
                             }
-                            else
+                            else if (item.Status == "20" || item.Status == "25")
                             {
                                 @Html.Raw("服务中");
                             }

@@ -279,22 +279,32 @@ namespace Bang.DataAccess
                    money_status
                        -10,-15:待退款
                 */
-                if (orderStatus == "1" || orderStatus == "2" || orderStatus == "3")
+                
+                if (orderStatus == "1")
                 {
-                    sqlString += " and o.order_status='" + orderStatus + "'";
-                    sqlCountString += " and o.order_status='" + orderStatus + "'";
+                    sqlString += " and o.order_status in(20,25)";
+                    sqlCountString += " and o.order_status in(20,25)";
+                }
+                else if (orderStatus == "2")
+                {
+                    sqlString += " and o.order_status='15'";
+                    sqlCountString += " and o.order_status='15'";
+                }
+                else if (orderStatus == "3")
+                {
+                    sqlString += " and o.order_status='90'";
+                    sqlCountString += " and o.order_status='90'";
                 }
                 else if (orderStatus == "4")
                 {
-                    sqlString += " and o.release_status='" + orderStatus + "'";
-                    sqlCountString += " and o.release_status='" + orderStatus + "'";
+                    sqlString += " and o.release_status='5'";
+                    sqlCountString += " and o.release_status='5'";
                 }
                 else
                 {//5
-                    sqlString += " and o.money_status='" + orderStatus + "'";
-                    sqlCountString += " and o.money_status='" + orderStatus + "'";
+                    sqlString += " and o.money_status in('-10','-15')";
+                    sqlCountString += " and o.money_status in('-10','-15')";
                 }
-
             }
             if (serviceType != "-1")
             {

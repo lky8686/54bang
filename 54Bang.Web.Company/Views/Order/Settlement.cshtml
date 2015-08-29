@@ -46,7 +46,7 @@
                 success: function (data) {
                     $("#btn_Query").removeAttr("disabled");
                     $("#div_DataList").html(data);
-                    $("#s_total").html($("#tbl_data_list").attr("data-total"));
+                    $("#s_total").html($("#txt_total").val());
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#btn_Query").removeAttr("disabled");

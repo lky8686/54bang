@@ -61,22 +61,31 @@ namespace Bang.DataAccess
                     money_status
                         -10,-15:待退款
                  */
-                if (status == "1" || status == "2" || status == "3")
+                if (status == "1")
                 {
-                    sqlString += " and v.order_status=:status";
-                    countSqlString += " and v.order_status=:status";
+                    sqlString += " and v.order_status in(20,25)";
+                    countSqlString += " and v.order_status in(20,25)";
+                }
+                else if (status == "2") {
+                    sqlString += " and v.order_status='15'";
+                    countSqlString += " and v.order_status='15'";
+                }
+                else if (status == "3")
+                {
+                    sqlString += " and v.order_status='90'";
+                    countSqlString += " and v.order_status='90'";
                 }
                 else if (status == "4")
                 {
-                    sqlString += " and v.release_status=:status";
-                    countSqlString += " and v.release_status=:status";
+                    sqlString += " and v.release_status='5'";
+                    countSqlString += " and v.release_status='5'";
                 }
                 else
                 {//5
-                    sqlString += " and v.money_status=:status";
-                    countSqlString += " and v.money_status=:status";
+                    sqlString += " and v.money_status in('-10','-15')";
+                    countSqlString += " and v.money_status in('-10','-15')";
                 }
-                paramList.Add(new OracleParameter { ParameterName = "status", Value = status });
+                //paramList.Add(new OracleParameter { ParameterName = "status", Value = status });
                 #endregion
             }
 
@@ -170,7 +179,7 @@ namespace Bang.DataAccess
         {
             #region
             var result = new List<CompanyEmpOrderStatModel>();
-            var sqlString = "select m.*,d.sf_real_name from ( select r.shifu_code,count(o.order_number) as myCount,sum(o.pay_total) as myMoney from order_rob_shifu r ,order_info o where o.order_number=r.order_number and r.rob_status in ('80','90') and shifu_code in  (select shifu_code from shifu_reg where company_code='" + companyCode + "' {empAccountCondition} ) {dateCondition} group by r.shifu_code  ) m left join shifu_details d on d.shifu_code=m.shifu_code";
+            var sqlString = "select m.*,d.sf_real_name from ( select r.shifu_code,r.shifu_phone,count(o.order_number) as myCount,sum(o.pay_total) as myMoney from order_rob_shifu r ,order_info o where o.order_number=r.order_number and r.rob_status in ('80','90') and shifu_code in  (select shifu_code from shifu_reg where company_code='" + companyCode + "' {empAccountCondition} ) {dateCondition} group by r.shifu_code,r.shifu_phone  ) m left join shifu_details d on d.shifu_code=m.shifu_code";
             if (string.IsNullOrEmpty(empAccount) == false)
             {//and shifu_phone=''                
                 sqlString = sqlString.Replace("{empAccountCondition}", " and shifu_phone='" + empAccount + "'");
@@ -197,7 +206,7 @@ namespace Bang.DataAccess
                 var emp = new CompanyEmpOrderStatModel
                 {
                     EmpName = reader["sf_real_name"].ToString(),
-                    EmpAccount = reader["shifu_code"].ToString(),
+                    EmpAccount = reader["shifu_phone"].ToString(),
                     OrderCount = int.Parse(reader["myCount"].ToString()),
                     OrderTotal = decimal.Parse(reader["myMoney"].ToString())
                 };
