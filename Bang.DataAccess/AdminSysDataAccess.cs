@@ -89,7 +89,7 @@ namespace Bang.DataAccess
 
             sqlPageString = sqlPageString.Replace("{table}", sqlString);
 
-            return result;
+            //return result;
 
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
             var count = OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString);
@@ -110,6 +110,56 @@ namespace Bang.DataAccess
             }
             return result;
             #endregion
+        }
+
+        public static List<CompanyEmployeeRecommendModel> GetEmployeeRecommendList(string city, string year, string month, string companyCode, string empAccount, int pageIndex, int pageSize, out int recordCount)
+        {
+            recordCount = 0;
+            pageIndex = pageIndex - 1;
+            recordCount = 0;
+            var startIndex = pageIndex * pageSize + 1;
+            var endIndex = startIndex + pageSize - 1;
+            var startDate = new DateTime(int.Parse(year), int.Parse(month), 1);
+            var endDate = startDate.AddMonths(1);
+
+            var result = new List<CompanyEmployeeRecommendModel>();
+            var sqlString = "select rownum as rn, shifu_phone, shifu_name, recommed_count from recommend_summary where 1=1 ";
+            var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
+            var sqlCountString = "select count(*) rcount from recommend_summary where 1=1 ";
+
+            sqlString += " and create_date between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') ";
+            sqlCountString += " and create_date between to_date('" + startDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') and to_date('" + endDate.ToString("yyyy-MM-dd") + "','yyyy-mm-dd') ";
+            if (string.IsNullOrEmpty(companyCode) == false)
+            {
+                sqlString += " and shifu_code in (select shifu_code from shifu_details where company_code='" + companyCode + "')";
+                sqlCountString += " and shifu_code in (select shifu_code from shifu_details where company_code='" + companyCode + "')";
+            }
+
+            if (string.IsNullOrEmpty(empAccount) == false)
+            {
+                sqlString += "  and shifu_code ='" + empAccount + "'";
+                sqlCountString += "  and shifu_code ='" + empAccount + "'";
+            }
+
+            sqlPageString = sqlPageString.Replace("{table}", sqlString);
+
+            //return result;
+
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
+            var count = OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString);
+            recordCount = int.Parse(count.ToString());
+
+            while (reader.Read())
+            {
+                var emp = new CompanyEmployeeRecommendModel
+                {
+                    AccountId = reader["shifu_phone"].ToString(),
+                    Name = reader["shifu_name"].ToString(),
+                    Amount = int.Parse(reader["recommed_count"].ToString())
+                };
+                result.Add(emp);
+            }
+            return result;
         }
 
         public static bool SetCompanyEmpAccountStatus(string empAccount, string status)
@@ -156,7 +206,7 @@ namespace Bang.DataAccess
                 sqlCountString += "  and c.phone_no='" + mobile + "'";
             }
             sqlPageString = sqlPageString.Replace("{table}", sqlString);
-            return result;
+            //return result;
 
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
             var count = OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString);
@@ -253,7 +303,7 @@ namespace Bang.DataAccess
             }
 
             sqlPageString = sqlPageString.Replace("{table}", sqlString);
-            return result;
+            //return result;
 
             recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString));
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlString);

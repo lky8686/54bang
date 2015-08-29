@@ -20,6 +20,11 @@ namespace Bang.Business
             return AdminSysDataAccess.GetCompanyEmpList(city, serviceType, startDate, endDate, companyCode, empAccount, pageIndex, pageSize, out recordCount);
         }
 
+        public static List<CompanyEmployeeRecommendModel> GetEmployeeRecommendList(string city, string year, string month, string companyCode, string empAccount, int pageIndex, int pageSize, out int recordCount)
+        {
+            return AdminSysDataAccess.GetEmployeeRecommendList(city, year, month, companyCode, empAccount, pageIndex, pageSize, out recordCount);
+        }
+
         /// <summary>
         /// 等1的时候冻结 等0的时候解冻
         /// </summary>

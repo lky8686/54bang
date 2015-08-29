@@ -1,7 +1,8 @@
-﻿@{
+﻿@model List<Bang.Models.CompanyEmployeeRecommendModel>
+@{
     Layout = null;
+    var index = 1;
 }
-
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -13,24 +14,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>序号</td>
-                <td>师傅账户</td>
-                <td>师傅姓名</td>
-                <td>推荐用户数量</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>师傅账户</td>
-                <td>师傅姓名</td>
-                <td>推荐用户数量</td>
-            </tr>
-            <tr>
-                <td>序号</td>
-                <td>师傅账户</td>
-                <td>师傅姓名</td>
-                <td>推荐用户数量</td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@item.AccountId</td>
+                    <td>@item.Name</td>
+                    <td>@item.Amount</td>
+                </tr>
+                index++;
+            }
     </table>
 </div>
 @Html.Partial("PageBar", new Bang.Models.PageBarInfoModel { PageSize = ViewBag.PageSize, RecordCount = ViewBag.RecordCount, CurrentIndex = ViewBag.CurrentIndex })

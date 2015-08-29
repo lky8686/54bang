@@ -50,13 +50,14 @@ namespace _54Bang.Web.Admin.Controllers
         public ActionResult RecommendQuery(string city, string year, string month, string company, string empAccount, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
             //todo 
-
-            ViewBag.RecordCount = 93;
-            ViewBag.PageSize = 20;
+            var list = AdminSysManager.GetEmployeeRecommendList(city, year, month, company, empAccount, pageIndex, pageSize, out recordCount);
+            ViewBag.RecordCount = recordCount;
+            ViewBag.PageSize = pageSize;
             ViewBag.CurrentIndex = pageIndex;
-            return View();
+            return View(list);
         }
 
     }
