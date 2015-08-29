@@ -391,8 +391,11 @@ namespace Bang.DataAccess
             var totalReader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlTotalString);
             while (totalReader.Read())
             {
-                total = decimal.Parse(totalReader["total"].ToString());
-                amount = int.Parse(totalReader["amount"].ToString());
+                if (string.IsNullOrEmpty(totalReader["total"].ToString()) == false)
+                {
+                    total = decimal.Parse(totalReader["total"].ToString());
+                    amount = int.Parse(totalReader["amount"].ToString());
+                }
             }
             var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
             while (reader.Read())
