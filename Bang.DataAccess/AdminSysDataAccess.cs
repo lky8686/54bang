@@ -327,5 +327,92 @@ namespace Bang.DataAccess
             return result;
             #endregion
         }
+
+        public static List<TradeModel> OrderTradeQuery(string city, string startDate, string endDate, string orderNum, string bankSerialNumber, string tradeStatus, string tradeOrg, int pageIndex, int pageSize, out int recordCount, out decimal total, out int amount)
+        {
+            #region
+            recordCount = 0;
+            pageIndex = pageIndex - 1;
+            recordCount = 0;
+            total = 0;
+            amount = 0;
+            var startIndex = pageIndex * pageSize + 1;
+            var endIndex = startIndex + pageSize - 1;
+            var result = new List<TradeModel>();
+
+            var sqlString = "select rownum as rn, p.ORDER_NUMBER,TRANSACTION_ID,o.order_time,PAYMENT_TYPE,PAY_MONEY,PAYMENT_STATUS from payment_info p left join order_info o on o.order_number=p.order_number where 1=1 ";
+            var sqlPageString = "select * from ({table})m where rn >=" + startIndex + " and rn <=" + endIndex;
+            var sqlCountString = "select count(*) from payment_info p left join order_info o on o.order_number=p.order_number where 1=1 ";
+            var sqlTotalString = "select sum(PAY_MONEY) as total,count(*) as amount  from payment_info p left join order_info o on o.order_number=p.order_number where 1=1 ";
+
+            if (string.IsNullOrEmpty(startDate) == false)
+            {
+                sqlString += " and END_TIME >= to_date('" + startDate + "','yyyy-mm-dd')";
+                sqlCountString += " and END_TIME >= to_date('" + startDate + "','yyyy-mm-dd')";
+                sqlTotalString += " and END_TIME >= to_date('" + startDate + "','yyyy-mm-dd')";
+            }
+            if (string.IsNullOrEmpty(endDate) == false)
+            {
+                sqlString += " and END_TIME <= to_date('" + endDate + "','yyyy-mm-dd')";
+                sqlCountString += " and END_TIME <= to_date('" + endDate + "','yyyy-mm-dd')";
+                sqlTotalString += " and END_TIME <= to_date('" + endDate + "','yyyy-mm-dd')";
+            }
+
+            if (string.IsNullOrEmpty(orderNum) == false)
+            {
+                sqlString += " and ORDER_NUMBER='" + orderNum + "'";
+                sqlCountString += " and ORDER_NUMBER='" + orderNum + "'";
+                sqlTotalString += " and ORDER_NUMBER='" + orderNum + "'";
+            }
+
+            if (string.IsNullOrEmpty(bankSerialNumber) == false)
+            {
+                sqlString += " and TRANSACTION_ID='" + bankSerialNumber + "'";
+                sqlCountString += " and TRANSACTION_ID='" + bankSerialNumber + "'";
+                sqlTotalString += " and TRANSACTION_ID='" + bankSerialNumber + "'";
+            }
+
+            if (tradeOrg != "-1")
+            {
+                sqlString += " and PAYMENT_TYPE='" + tradeOrg + "'";
+                sqlCountString += " and PAYMENT_TYPE='" + tradeOrg + "'";
+                sqlTotalString += " and PAYMENT_TYPE='" + tradeOrg + "'";
+            }
+
+            if (tradeStatus != "-1")
+            {
+                sqlString += " and PAYMENT_STATUS='" + tradeStatus + "'";
+                sqlCountString += " and PAYMENT_STATUS='" + tradeStatus + "'";
+                sqlTotalString += " and PAYMENT_STATUS='" + tradeStatus + "'";
+            }
+            sqlPageString = sqlPageString.Replace("{table}", sqlString);
+
+            recordCount = Convert.ToInt32(OracleHelper.ExecuteScalar(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlCountString));
+            var totalReader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlTotalString);
+            while (totalReader.Read())
+            {
+                total = decimal.Parse(totalReader["total"].ToString());
+                amount = int.Parse(totalReader["amount"].ToString());
+            }
+            var reader = OracleHelper.ExecuteReader(OracleHelper.OracleConnString, System.Data.CommandType.Text, sqlPageString);
+            while (reader.Read())
+            {
+                var emp = new TradeModel
+                {
+                    OrderId = reader["order_number"].ToString(),
+                    BankSerialNumber = reader["TRANSACTION_ID"].ToString(),
+                    PaymentStatus = reader["PAYMENT_STATUS"].ToString(),
+                    OrderDate = string.IsNullOrEmpty(reader["order_time"].ToString()) ? DateTime.MinValue : DateTime.Parse(reader["order_time"].ToString()),
+                    OrderTotal = decimal.Parse(reader["PAY_MONEY"].ToString()),
+                    Poundage = 0,
+                    TradeOrg = reader["PAYMENT_TYPE"].ToString()
+                };
+                result.Add(emp);
+            }
+
+
+            return result;
+            #endregion
+        }
     }
 }

@@ -45,16 +45,21 @@ namespace _54Bang.Web.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult TradeQuery(string city, string startDate, string endDate, string orderNum, string bankSerialNumber, string tradeStatus, string sel_TradeOrg, int pageIndex)
+        public ActionResult TradeQuery(string city, string startDate, string endDate, string orderNum, string bankSerialNumber, string tradeStatus, string tradeOrg, int pageIndex)
         {
             pageIndex = pageIndex <= 0 ? 1 : pageIndex;
-
+            var pageSize = 20;
+            var recordCount = 0;
+            decimal total = 0;
+            var amount = 0;
             //todo 
-
-            ViewBag.RecordCount = 93;
-            ViewBag.PageSize = 20;
+            var list = AdminSysManager.OrderTradeQuery(city, startDate, endDate, orderNum, bankSerialNumber, tradeStatus, tradeOrg, pageIndex, pageSize, out recordCount, out total, out amount);
+            ViewBag.RecordCount = recordCount;
+            ViewBag.PageSize = pageSize;
             ViewBag.CurrentIndex = pageIndex;
-            return View();
+            ViewBag.Total = total;
+            ViewBag.Amount = amount;
+            return View(list);
         }
 
         /// <summary>

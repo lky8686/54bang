@@ -45,7 +45,7 @@ namespace Bang.Models
         /// <summary>
         /// 交易状态
         /// </summary>
-        public string TradeStatus { get; set; }
+        public string PaymentStatus { get; set; }
 
     }
 }

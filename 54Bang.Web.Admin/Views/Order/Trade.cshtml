@@ -18,17 +18,17 @@
         &nbsp;&nbsp;&nbsp;银行流水号:<input type="text" id="txt_BankSerialNumber" value="" class="form-control" style="display: inline; width: 120px;" />
     </div>
     <div class="row" style="margin-top:5px;">
-        交易状态:<select id="sel_TradeStatus" class="form-control" style="display: inline; width: 120px;">
+        支付状态:<select id="sel_TradeStatus" class="form-control" style="display: inline; width: 120px;">
             <option value="-1">全部</option>
-            @foreach (var item in Bang.Business.BaseDataManager.TradeStatusList())
+            @foreach (var item in Bang.Business.BaseDataManager.PaymentStatusList())
             {
                 <option value="@item.Key">@item.Value</option>
             }
         </select>
         &nbsp;&nbsp;&nbsp;清算机构:<select id="sel_TradeOrg" class="form-control" style="display: inline; width: 120px;">
             <option selected value="-1">全部</option>
-            <option value="微信财付通">微信财付通</option>
-            <option value="支付宝">支付宝</option>
+            <option value="0">微信财付通</option>
+            <option value="1">支付宝</option>
         </select>
     </div>
     <div class="row" style="margin-top: 5px;">
@@ -38,8 +38,8 @@
     </div>
 </form>
 <h4 class="sub-header">
-    <a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 交易金额合计：￥12222.00 手续费金额合计：122.00
-    总笔数：123
+    <a id="downloadList" class="btn btn-default" href="#" role="button">下载列表</a> 交易金额合计：￥<span id="s_total"></span> 手续费金额合计：--
+    总笔数：<span id="s_amount"></span>
 </h4>
 <div id="div_DataList">
     Loading...
@@ -54,6 +54,8 @@
     $(function () {
         //查询
         $("#btn_Query").on("click", function () {
+            $("#s_total").html("0.00");
+            $("#s_amount").html("0");
             var pageIndex = $("#pb_new_index").length == 0 ? 1 : $("#pb_new_index").val();
             if (isClickPagerBtn == false) {
                 pageIndex = 1;
@@ -77,6 +79,8 @@
                 success: function (data) {
                     $("#btn_Query").removeAttr("disabled");
                     $("#div_DataList").html(data);
+                    $("#s_total").html($("#tblList").attr("data-total"));
+                    $("#s_amount").html($("#tblList").attr("data-amount"));
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#btn_Query").removeAttr("disabled");
