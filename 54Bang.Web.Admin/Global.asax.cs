@@ -38,6 +38,8 @@ namespace _54Bang.Web.Admin
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             string strUrl = Request.Url.ToString();
+            System.Diagnostics.Debug.WriteLine("请求地址：" + Request.Url.ToString());
+
             if (!strUrl.Contains("umpay/ReceiveUMPayInfo.aspx"))
             {
                 string strMsg = string.Empty;
@@ -65,6 +67,31 @@ namespace _54Bang.Web.Admin
                         GoSqlErr("Get", this.Request.QueryString[str_t].ToString());
                 }
             }
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            string strUrl = Request.Url.ToString();
+            Exception objErr = Server.GetLastError().GetBaseException();
+            string error = string.Empty;
+            int httpCode = -1;
+
+            if (objErr.GetType().Name.Equals("HttpException"))
+            {
+                HttpException httpEx = (HttpException)objErr;
+                httpCode = httpEx.GetHttpCode();
+            }
+            else
+            {
+                error = "发生异常页: " + strUrl + "<br>";
+                error += "异常信息: " + objErr.ToString() + "<br>";
+            }
+
+            System.Diagnostics.Debug.WriteLine("Application_Error：" + error);
+
+            Server.ClearError();
+            this.Response.Write("<script language='javascript'>window.alert('" + error + "');location='" + this.Request.ServerVariables["URL"] + "';</script>");
+            this.Response.End();
         }
     }
 }

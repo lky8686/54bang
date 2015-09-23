@@ -38,6 +38,9 @@ namespace _54Bang.Web.Company
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             string strUrl = Request.Url.ToString();
+
+            System.Diagnostics.Debug.WriteLine("请求地址："+ Request.Url.ToString());
+
             if (!strUrl.Contains("umpay/ReceiveUMPayInfo.aspx"))
             {
                 string strMsg = string.Empty;
@@ -66,5 +69,8 @@ namespace _54Bang.Web.Company
                 }
             }
         }
+
+
+        
     }
 }

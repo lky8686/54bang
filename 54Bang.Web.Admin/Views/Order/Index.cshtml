@@ -63,7 +63,7 @@
                 serviceType: $("#sel_ServiceType option:selected").val(),
                 pageIndex: pageIndex
             };
-            alert(JSON.stringify(postData))
+            //alert(JSON.stringify(postData))
             $("#btn_Query").attr("disabled", true);
             $.ajax({
                 type: 'post',
@@ -82,4 +82,11 @@
 
         $("#btn_Query").click();
     });
+</script>
+<script type="text/javascript" src="~/Resources/js/importToExcel.js">
+</script>
+<script type="text/javascript">
+    $("#downloadList").on("click", function () {
+        tableImportToExcel("tbl_data_list");
+    })
 </script>

@@ -52,5 +52,10 @@ namespace Bang.Models
                 }
             }
         }
+        
+        public bool ShowRecordCount
+        {
+            get; set;
+        }
     }
 }

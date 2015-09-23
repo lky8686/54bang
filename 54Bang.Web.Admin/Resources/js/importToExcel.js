@@ -2,11 +2,11 @@
 function getExplorer() {
     var explorer = window.navigator.userAgent;
     //ie 
-    if (explorer.indexOf("MSIE") >= 0) {
-        return 'ie';
-    }
+    //if (explorer.indexOf("MSIE") >= 0 ) {
+    //    return 'ie';
+    //}
         //firefox 
-    else if (explorer.indexOf("Firefox") >= 0) {
+    if (explorer.indexOf("Firefox") >= 0) {
         return 'Firefox';
     }
         //Chrome
@@ -21,6 +21,7 @@ function getExplorer() {
     else if (explorer.indexOf("Safari") >= 0) {
         return 'Safari';
     }
+    return 'ie';
 }
 function tableImportToExcel(tableid) {//整个表格拷贝到EXCEL中
     if (getExplorer() == 'ie') {

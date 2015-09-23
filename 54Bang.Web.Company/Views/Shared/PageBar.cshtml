@@ -31,7 +31,12 @@
             <a href="javascript:;" onclick="bang_search_page(@nextIndex)" class="btn btn-xs btn-default btn-next">&gt;</a>
         </span>
         <input type="hidden" id="pb_new_index" value="@Model.CurrentIndex" />
+        @if (Model.ShowRecordCount)
+        {
+            <span style=" margin-left:20px;font-size:16px;">记录总数: @Model.RecordCount</span>
+        }
     </div>
+
 
     <script type="text/javascript">
         function bang_search_page(index) {
